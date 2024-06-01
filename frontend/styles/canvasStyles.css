@@ -1,0 +1,110 @@
+#painting-container {
+    margin: 0;
+    padding: 0;
+
+    height: fit-content;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#canvas-container, #palette-container {
+    margin: 0;
+    padding: 0;
+
+    min-width: 80%;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* #menu-container {} */
+
+#canvas-grid {
+    width: 100%;
+    max-width: 30rem; 
+    
+    display: flex;
+    flex-wrap: wrap;
+    aspect-ratio: 1 / 1;
+
+    outline: 3px solid black;
+}
+
+#canvas-grid .canvas-tile {
+    width: calc(100% / 8);
+    aspect-ratio: 1 / 1;
+
+    outline: 1px solid lightgray;
+}
+
+#palette-grid {
+    width: 100%;
+    max-width: 30rem; 
+
+    display: flex;
+    flex-wrap: wrap;
+
+    outline: 3px solid black;
+}
+
+#palette-grid .palette-tile {
+    width: calc(100% / 8);
+    aspect-ratio: 1 / 1;
+
+    outline: 1px solid black;
+}
+
+#palette-tile-1 {
+    background-color: #000000;
+}
+#palette-tile-2 {
+    background-color: #ffffff;
+}
+#palette-tile-3 {
+    background-color: #FF5733;
+}
+#palette-tile-4 {
+    background-color: #FFC300;
+}
+#palette-tile-5 {
+    background-color: #DAF7A6;
+}
+#palette-tile-6 {
+    background-color: #C70039;
+}
+#palette-tile-7 {
+    background-color: #FF5733;
+}
+#palette-tile-8 {
+    background-color: #0080FF;
+}
+#palette-tile-9 {
+    background-color: #4abad6;
+}
+#palette-tile-10 {
+    background-color: #6A5ACD;
+}
+#palette-tile-11 {
+    background-color: #9A7D0A;
+}
+#palette-tile-12 {
+    background-color: #FF00FF;
+}
+#palette-tile-13 {
+    background-color: #20B2AA;
+}
+#palette-tile-14 {
+    background-color: #9932CC;
+}
+#palette-tile-15 {
+    background-color: #7FFF00;
+}
+#palette-tile-16 {
+    background-color: #FF7F50;
+}
