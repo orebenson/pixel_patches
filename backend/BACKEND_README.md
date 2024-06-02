@@ -1,6 +1,6 @@
 # Pixel Patches Backend API
 
-## Setup and Run
+## Setup and run
 
 1. Create a `.env` file with the following variables:
    ```

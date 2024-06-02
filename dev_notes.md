@@ -1,9 +1,22 @@
 
 
 ### TODO (in order of priority)
-- create simple frontend page with 8 by 8 grid, colour palette, and a submit button
+frontend
+- add js functionality for painting the canvas
+- add js functionality for clearing the canvas
+- add js service for converting canvas to hex
+- add js API routing for sending array to backend
+    - add error handling (popup message for success/ error (patch already exists))
 - create simple page to view all submitted patches
+
+backend
 - create response handler (errors, etc)
+- create security middleware module to handle exposed api concerns
+    - NoSQL injection
+    - Rate limiting (ddos)
+    - Input validation and sanitation
+    - Error handling (status codes)
+    - CORS (only allow use from specific IPs) - prevent XSS
 
 ## MVP
 frontend
