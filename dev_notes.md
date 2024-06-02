@@ -1,8 +1,8 @@
 
 =============================================================================
 
-### TODO for Current Version (v1.0) (in order of priority)
-frontend
+## TODO for Current Version (v1.0) (in order of priority)
+### frontend
 - add js functionality for painting the canvas
 - add js functionality for clearing the canvas
 - add js service for converting canvas to hex
@@ -10,7 +10,7 @@ frontend
     - add error handling (popup message for success/ error (patch already exists))
 - create simple page to view all submitted patches
 
-backend
+### backend
 - change to typsecript
 - create response handler (errors, etc)
 
