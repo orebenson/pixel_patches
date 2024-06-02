@@ -64,6 +64,7 @@ backend
     - label nsfw patches
     - group patches into themes for sorting?
 - custom compression/decompression utility written in c and compiled to webassembly
+    - must be deterministoc for 64 x 64
 
 + Real-time features
 - analytics dashboard to show live number of users, most popular colours, number of uploads per day
