@@ -1,6 +1,9 @@
 import * as PatchService from './api/patch.js';
 
 let picked_colour = "";
+const canvas_background_colour = window.getComputedStyle(document.querySelector('.canvas-tile')).getPropertyValue("background-color");
+const canvas_outline_colour = '1px solid #adadad';
+
 
 function rgbToHex(rgb_colour) {
     rgb_colour = rgb_colour.slice(4, -1).split(', ');
@@ -34,10 +37,12 @@ function loadCanvas(canvas_tiles) {
     if (savedCanvas) {
         const canvasState = JSON.parse(savedCanvas);
         for (let i = 0; i < canvas_tiles.length; i++) {
-            const tile = canvas_tiles[i];
             if (canvasState[i]) {
+                const tile = canvas_tiles[i]
                 tile.style.backgroundColor = canvasState[i];
-                tile.style.outline = canvasState[i];
+                if (tile.style.backgroundColor !== canvas_background_colour) {
+                    tile.style.outline = canvasState[i];
+                }
             }
         }
     }
@@ -46,8 +51,9 @@ function loadCanvas(canvas_tiles) {
 function saveCanvas(canvas_tiles) {
     const canvasState = [];
     for (let i = 0; i < canvas_tiles.length; i++) {
-        const tile = canvas_tiles[i];
-        canvasState.push(tile.style.backgroundColor);
+        canvasState.push(
+            canvas_tiles[i].style.backgroundColor
+        );
     }
     localStorage.setItem('canvasState', JSON.stringify(canvasState));
 }
@@ -55,8 +61,8 @@ function saveCanvas(canvas_tiles) {
 
 function clearCanvas(canvas_tiles) {
     for (let i = 0; i < canvas_tiles.length; i++) {
-        canvas_tiles[i].style.backgroundColor = '#ffffff';
-        canvas_tiles[i].style.outline = '1px solid #adadad';
+        canvas_tiles[i].style.backgroundColor = canvas_background_colour;
+        canvas_tiles[i].style.outline = canvas_outline_colour;
     };
     localStorage.removeItem('canvasState');
 }
@@ -75,12 +81,11 @@ function initCanvas() {
         clearCanvas(canvas_tiles);
     });
 
-    // loadCanvas(canvas_tiles);
+    loadCanvas(canvas_tiles);
 
-    // document.addEventListener('beforeunload', function () {
-    //     console.log('save canvas');
-    //     saveCanvas(canvas_tiles);
-    // });
+    window.addEventListener('beforeunload', function () {
+        saveCanvas(canvas_tiles);
+    });
 
     // document.querySelector('#submit-patch').addEventListener('click', function () {
     //     submitCanvas(canvas_tiles);

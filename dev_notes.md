@@ -73,10 +73,10 @@ create middleware module for validation
     - CORS (only allow use from specific IPs) - prevent XSS
 
 ### v2.0 - deployment
-database - firebase store (firestore)
+database - firestore
 backend - firebase functions
     - auth - firebase auth
-    - cache - find a managed redis service
+    - sessions - firestore
 frontend - firebase hosting
 
 =============================================================================
