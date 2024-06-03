@@ -16,7 +16,9 @@
 
 ### backend
 - change to typsecript
-- create response handler (errors, etc)
+- create response handler 
+    - create response type (status, message, data)
+    - create request type (basic validator - json containing patch hexes)
 
 =============================================================================
 

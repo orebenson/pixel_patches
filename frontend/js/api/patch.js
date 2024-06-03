@@ -1,3 +1,3 @@
-// function for add patch (reduce to hex aray and call ajax function)
+// function for add patch (call ajax post request to /patch/add)
 
-// function for get all patches (call ajax and return the array of values)
+// function for get the next 50 patches (call ajax get to /patch/list/0/50 and return the array of values)
