@@ -1,24 +1,24 @@
 import { Patch } from '../schemas/patchSchema.js';
 
-export async function addPatch(pixelHexes) {
+export async function addPatch(patchPixelHexes) {
     try {
         const patch = new Patch({
-            pixelHexes: pixelHexes
+            patchPixelHexes: patchPixelHexes
         });
         await patch.save();
-        return 'added patch';
+        return { status: 'success', message: 'success saving patch' };
     } catch (error) {
         console.log(`error: ${error}`);
-        return 'error';
+        return { status: 'error', message: 'error saving patch' };
     }
 }
 
 export async function getAllPatches() {
     try {
-        const patches = await Patch.find({}).select('pixelHexes -_id');
-        return patches;
+        const patches = await Patch.find({}).select('patchPixelHexes -_id');
+        return { status: 'success', message: 'success getting patches', data: patches };;
     } catch (error) {
         console.log(`error ${error}`)
-        return 'error';
+        return { status: 'error', message:'error getting patches', data: {} };;
     }
 }

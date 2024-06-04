@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 
 const patchSchema = new mongoose.Schema({
-    pixelHexes: { 
+    patchPixelHexes: { 
         type: [String], 
         required: true,
         validate: {
             validator: async function(value) {
-                const existingPatch = await this.constructor.findOne({ pixelHexes: value });
+                const existingPatch = await this.constructor.findOne({ patchPixelHexes: value });
                 return !existingPatch;
             },
             message: 'Pixel Patches must be unique'

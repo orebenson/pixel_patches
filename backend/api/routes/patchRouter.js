@@ -9,18 +9,18 @@ router.get('/', (req, res) => {
     return;
 });
 
-// add a new patch (check that it doesnt already exist first)
 router.post('/add', async (req, res) => {
     console.log(req.body);
-    const { pixelHexes } = req.body;
-    const result = await PatchService.addPatch(pixelHexes);
-    sendRes(res, 200, result);
+    const { patchPixelHexes } = req.body;
+    const result = await PatchService.addPatch(patchPixelHexes);
+    let res_status = result.status === 'error' ? 500 : 200;
+    sendRes(res, res_status, result.message);
 });
 
-// get list of all patches (add cache here in future)
 router.get('/list', async (req, res) => {
     const result = await PatchService.getAllPatches();
-    sendRes(res, 200, result);
+    let res_status = result.status === 'error' ? 500 : 200;
+    sendRes(res, res_status, result.message, result.data);
     return;
 });
 

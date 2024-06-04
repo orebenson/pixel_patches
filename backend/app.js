@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import addApiRoutes from './api/routes/routes.js';
 import mongoose from 'mongoose';
 import { dropCollectionIfExists } from './api/utils/dbUtils.js'
@@ -7,7 +8,7 @@ import { dropCollectionIfExists } from './api/utils/dbUtils.js'
 // db connection
 const db_url = process.env.DB_URL;
 await mongoose.connect(db_url).then(
-    async () => { 
+    async () => {
         console.log(`Database connected on ${db_url}`);
         await dropCollectionIfExists('patches', mongoose.connection);
     },
@@ -18,11 +19,17 @@ await mongoose.connect(db_url).then(
 const app = express();
 
 // middleware
+const corsOptions = {
+    origin: process.env.FRONTEND_URL,
+    optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use((req, res, next) => {
     console.log(req.method, req.path);
     next();
 })
+
 
 // routes
 addApiRoutes(app);

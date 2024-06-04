@@ -24,36 +24,61 @@ afterEach(async () => {
 
 describe('POST /patch/add', () => {
     it('Adds a new patch', async () => {
-        const response = await request.post('/patch/add').send({ pixelHexes: ['#FFFFFF', '#000000'] });
+        const response = await request.post('/patch/add').send({ patchPixelHexes: ['#FFFFFF', '#000000'] });
         expect(response.status).toBe(200);
-        expect(response.body.message).toBe('added patch');
+        expect(response.body.message).toBe('success saving patch');
 
-        const patch = await Patch.findOne({ pixelHexes: ['#FFFFFF', '#000000'] });
+        const patch = await Patch.findOne({ patchPixelHexes: ['#FFFFFF', '#000000'] });
         expect(patch).not.toBeNull();
-        expect(patch.pixelHexes).toEqual(['#FFFFFF', '#000000']);
+        expect(patch.patchPixelHexes).toEqual(['#FFFFFF', '#000000']);
+    });
+});
+
+describe('POST /patch/add', () => {
+    it('Adds two different patches, that share a colour', async () => {
+        const response = await request.post('/patch/add').send({ patchPixelHexes: ['#FFFFFF', '#000000'] });
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe('success saving patch');
+
+        const response2 = await request.post('/patch/add').send({ patchPixelHexes: ['#FFFFFF', '#FFFFFF'] });
+        expect(response2.status).toBe(200);
+        expect(response2.body.message).toBe('success saving patch');
+    });
+});
+
+describe('POST /patch/add', () => {
+    it('Adds two different patches, that dont share a colour', async () => {
+        const response = await request.post('/patch/add').send({ patchPixelHexes: ['#FFFFFF', '#FFFFFF'] });
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe('success saving patch');
+
+        const response2 = await request.post('/patch/add').send({ patchPixelHexes: ['#000000', '#000000'] });
+        expect(response2.status).toBe(200);
+        expect(response2.body.message).toBe('success saving patch');
     });
 });
 
 describe('POST /patch/add', () => {
     it('Tries to add duplicate patches', async () => {
-        const response = await request.post('/patch/add').send({ pixelHexes: ['#FFFFFF', '#000000'] });
+        const response = await request.post('/patch/add').send({ patchPixelHexes: ['#FFFFFF', '#000000'] });
         expect(response.status).toBe(200);
-        expect(response.body.message).toBe('added patch');
+        expect(response.body.message).toBe('success saving patch');
 
-        const response2 = await request.post('/patch/add').send({ pixelHexes: ['#FFFFFF', '#000000'] });
-        expect(response2.status).toBe(200);
-        expect(response2.body.message).toBe('error');
+        const response2 = await request.post('/patch/add').send({ patchPixelHexes: ['#FFFFFF', '#000000'] });
+        expect(response2.status).toBe(500);
+        expect(response2.body.message).toBe('error saving patch');
     });
 });
 
 describe('GET /patch/list', () => {
     it('Gets the list of patches', async () => {
-        await Patch({ pixelHexes: ['#FFFFFF', '#000000'] }).save();
+        await Patch({ patchPixelHexes: ['#FFFFFF', '#000000'] }).save();
 
         const response = await request.get('/patch/list');
         expect(response.status).toBe(200);
-        expect(response.body.message).toEqual(expect.arrayContaining([
-            expect.objectContaining({ pixelHexes: ['#FFFFFF', '#000000'] })
+        expect(response.body.message).toBe('success getting patches');
+        expect(response.body.data).toEqual(expect.arrayContaining([
+            expect.objectContaining({ patchPixelHexes: ['#FFFFFF', '#000000'] })
         ]));
     });
 });

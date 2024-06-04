@@ -3,22 +3,12 @@
 
 ## TODO for Current Version (v1.0) (in order of priority)
 ### frontend
-- add js functionality for painting the canvas
-    - create a canvas object
-    - update canvas tiles when clicked with a colour
-    - on page load, (if page is left and revisted), load canvas state from localstorage
-    - on page unload, save canvas state to localstorage
-- add js functionality for clearing the canvas
-- add js service for converting canvas to hex
-- add js API routing for sending array to backend
-    - add error handling (popup message for success/ error (patch already exists))
 - create simple page to view all submitted patches
+- handle loading each page / previous pages etc / infinite scroll?
 
 ### backend
-- change to typsecript
-- create response handler 
-    - create response type (status, message, data)
-    - create request type (basic validator - json containing patch hexes)
+- add list/startindex/endindex
+- handle index out of bounds error
 
 =============================================================================
 
@@ -44,9 +34,14 @@ backend
         - else: store art in DB
     - GET all /patch
 
-### v1.1 - validation
-create middleware module for validation
-- input cleaning and validation
+### v1.1 - validation and code quality
+- create response handler 
+    - create response type (status, message, data)
+    - create request type (basic validator - json containing patch hexes)
+- manage message passing between application layers
+- change backend to typescript
+- create middleware module for validation
+    - input cleaning and validation
 
 ### v1.2 - signup, signin, sessions
 - add user sugnup

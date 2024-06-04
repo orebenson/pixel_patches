@@ -20,6 +20,11 @@ Pixel Patches is a platform for creating and sharing 8x8 pixel art. Each piece o
 - **Express**
 - **MongoDB**
 
+
+## Setup and Run Frontend
+1. Set `BACKEND_URL` in /js/utils/constants.js 
+2. run website
+
 ## Setup and Run Backend
 
 ### Prerequisites

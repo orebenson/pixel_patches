@@ -1,27 +1,15 @@
-import * as PatchService from './api/patch.js';
+import * as PatchService from './api/patchService.js';
+import { rgbToHex } from './utils/conversion-utils.js';
 
 let picked_colour = "";
 const canvas_background_colour = window.getComputedStyle(document.querySelector('.canvas-tile')).getPropertyValue("background-color");
-const canvas_outline_colour = '1px solid #adadad';
-
-
-function rgbToHex(rgb_colour) {
-    rgb_colour = rgb_colour.slice(4, -1).split(', ');
-    const [r, g, b] = rgb_colour.map(Number);
-    // shift each value into place (8 bits each for r, g, b), then convert binary to hex string and remove first digit
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
-
-function setPickedColour(palette_tile) {
-    let colour = window.getComputedStyle(palette_tile).getPropertyValue("background-color");
-    picked_colour = rgbToHex(colour);
-}
+const canvas_outline = window.getComputedStyle(document.querySelector('.canvas-tile')).getPropertyValue("outline");
 
 function initPalette() {
-    let palette_tiles = document.querySelectorAll('.palette-tile');
+    const palette_tiles = document.querySelectorAll('.palette-tile');
     for (let i = 0; i < palette_tiles.length; i++) {
         palette_tiles[i].addEventListener('click', function () {
-            setPickedColour(this);
+            picked_colour = window.getComputedStyle(palette_tiles[i]).getPropertyValue("background-color")
         });
     };
 }
@@ -33,46 +21,65 @@ function setCanvasTileColour(canvas_tile) {
 }
 
 function loadCanvas(canvas_tiles) {
-    const savedCanvas = localStorage.getItem('canvasState');
-    if (savedCanvas) {
+    try {
+        const savedCanvas = localStorage.getItem('canvasState');
+        if (!savedCanvas) return;
         const canvasState = JSON.parse(savedCanvas);
         for (let i = 0; i < canvas_tiles.length; i++) {
-            if (canvasState[i]) {
-                const tile = canvas_tiles[i]
-                tile.style.backgroundColor = canvasState[i];
-                if (tile.style.backgroundColor !== canvas_background_colour) {
-                    tile.style.outline = canvasState[i];
-                }
+            const tileColour = canvasState[i];
+            const tile = canvas_tiles[i]
+            tile.style.backgroundColor = tileColour;
+            if (tile.style.backgroundColor !== canvas_background_colour) {
+                tile.style.outline = tileColour;
             }
         }
+    } catch (error) {
+        console.error('Failed to load canvas state:', error);
     }
 }
 
 function saveCanvas(canvas_tiles) {
-    const canvasState = [];
-    for (let i = 0; i < canvas_tiles.length; i++) {
-        canvasState.push(
-            canvas_tiles[i].style.backgroundColor
-        );
+    try {
+        const canvasState = [];
+        for (let i = 0; i < canvas_tiles.length; i++) {
+            canvasState.push(
+                canvas_tiles[i].style.backgroundColor
+            );
+        }
+        localStorage.setItem('canvasState', JSON.stringify(canvasState));
+    } catch (error) {
+        console.error('Failed to save canvas state:', error);
     }
-    localStorage.setItem('canvasState', JSON.stringify(canvasState));
 }
 
 
 function clearCanvas(canvas_tiles) {
     for (let i = 0; i < canvas_tiles.length; i++) {
         canvas_tiles[i].style.backgroundColor = canvas_background_colour;
-        canvas_tiles[i].style.outline = canvas_outline_colour;
+        canvas_tiles[i].style.outline = canvas_outline;
     };
-    localStorage.removeItem('canvasState');
+    try {
+        localStorage.removeItem('canvasState');
+    } catch (error) {
+        console.error('Failed to access canvas state:', error);
+    }
 }
 
-function submitCanvas(canvas_tiles) {
-    // PatchService.submitCanvas(canvas_tiles);
+async function submitCanvas(canvas_tiles) {
+    let patchPixelHexes = [];
+    for (let i = 0; i < canvas_tiles.length; i++) {
+        patchPixelHexes.push(
+            rgbToHex(window.getComputedStyle(canvas_tiles[i]).getPropertyValue("background-color"))
+        );
+    }
+    const result = await PatchService.submitPatch(patchPixelHexes);
+
+    if (result === 'error') alert('error uploading patch (it may already exist!)');
+    if (result === 'success') alert('success uploading patch!');
 }
 
 function initCanvas() {
-    let canvas_tiles = document.querySelectorAll('.canvas-tile');
+    const canvas_tiles = document.querySelectorAll('.canvas-tile');
     for (let i = 0; i < canvas_tiles.length; i++) {
         canvas_tiles[i].addEventListener('click', function () { setCanvasTileColour(this) });
     };
@@ -87,14 +94,14 @@ function initCanvas() {
         saveCanvas(canvas_tiles);
     });
 
-    // document.querySelector('#submit-patch').addEventListener('click', function () {
-    //     submitCanvas(canvas_tiles);
-    // });
+    document.querySelector('#submit-patch').addEventListener('click', function () {
+        submitCanvas(canvas_tiles);
+    });
 }
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    initCanvas();
     initPalette();
+    initCanvas();
 })
 
