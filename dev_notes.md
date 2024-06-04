@@ -3,13 +3,9 @@
 
 ## TODO for Current Version (v1.0) (in order of priority)
 ### frontend
-- create simple page to view all submitted patches
-- handle loading each page / previous pages etc / infinite scroll?
+- handle navbar text overlapping on small screens
 
 ### backend
-- add GET /patchlist/startindex/endindex
-- add GET /patchlist/count
-- handle index out of bounds error, and return error code
 
 =============================================================================
 

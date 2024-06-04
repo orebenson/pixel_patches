@@ -5,6 +5,7 @@ let picked_colour = "";
 const canvas_background_colour = window.getComputedStyle(document.querySelector('.canvas-tile')).getPropertyValue("background-color");
 const canvas_outline = window.getComputedStyle(document.querySelector('.canvas-tile')).getPropertyValue("outline");
 
+// entry point for the palette
 function initPalette() {
     const palette_tiles = document.querySelectorAll('.palette-tile');
     for (let i = 0; i < palette_tiles.length; i++) {
@@ -75,6 +76,8 @@ async function submitCanvas(canvas_tiles) {
     await PatchService.submitPatch(patchPixelHexes);
 }
 
+
+// entry point for the canvas
 function initCanvas() {
     const canvas_tiles = document.querySelectorAll('.canvas-tile');
     for (let i = 0; i < canvas_tiles.length; i++) {
@@ -96,7 +99,7 @@ function initCanvas() {
     });
 }
 
-
+// entry point for the page
 document.addEventListener('DOMContentLoaded', function () {
     initPalette();
     initCanvas();

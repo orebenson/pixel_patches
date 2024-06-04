@@ -1,5 +1,10 @@
 import { BACKEND_URL } from '../utils/constants.js'
 
+function debugLog(method, path, json) {
+    console.log(`API DEBUG ${method} ${path} status: ${json.status} message: ${json.message}`);
+    if (method === 'GET') console.log(`API DEBUG ${JSON.stringify(json.data)}`);
+}
+
 async function handleRequest(method, path, data = {}) {
     try {
         const response = await fetch(`${BACKEND_URL}${path}`, {
@@ -11,16 +16,13 @@ async function handleRequest(method, path, data = {}) {
         });
 
         const json = await response.json();
+        if (!response.ok) throw new Error(json.message || 'Unknown error');
         
-        if (!response.ok) {
-            throw new Error(json.message || 'Unknown error');
-        }
-        console.log(`${method} ${path} status: ${json.status} message: ${json.message}`);
+        // debugLog(method, path, json);
 
         return method === 'GET' ? json.data : 'success';
-
     } catch (error) {
-        console.error(`${method} ${path} error:`, error);
+        console.error(`API ${method} ${path} error:`, error);
         return 'error';
     }
 }
