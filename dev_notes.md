@@ -7,8 +7,9 @@
 - handle loading each page / previous pages etc / infinite scroll?
 
 ### backend
-- add list/startindex/endindex
-- handle index out of bounds error
+- add GET /patchlist/startindex/endindex
+- add GET /patchlist/count
+- handle index out of bounds error, and return error code
 
 =============================================================================
 
@@ -41,14 +42,18 @@ backend
 - manage message passing between application layers
 - change backend to typescript
 - create middleware module for validation
-    - input cleaning and validation
+    - Validator.validateAddPatch() > check for session_id header (see if user is logged in)
+    - Validator.validateGetPatches()
+    - Validator.validateSignUp()
+    - Validator.validateSignIn()
+    - Validator.validateLogout() > check for session_id header (see if user is logged in)
 
 ### v1.2 - signup, signin, sessions
-- add user sugnup
+- add user sugnup:  Validator.validateSignUp() > Security.createUser() 
     - simple signup form with email, username, password
     - create user schema
     - add user id field to patch
-- add login (sessions)
+- add login (sessions):  Validator.validateSignIn() > Security.signIn() (returns session id)
     - simple login form
     - create module for auth and token handling (see monkeytype)
         - send user session id with signature

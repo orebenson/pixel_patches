@@ -1,0 +1,49 @@
+#patches-page-container {
+    margin: 0;
+    padding: 0;
+
+    height: fit-content;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 1rem;
+}
+
+#patches-list-container {
+    margin: 0;
+    padding: 0;
+
+    width: 80%;
+    height: fit-content;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#patches-list-container .patch-list-item {
+    width: calc(100% / 8);
+    /* max-width: 30rem;  */
+    
+    display: flex;
+    flex-wrap: wrap;
+    aspect-ratio: 1 / 1;
+
+    outline: 2px solid black;
+}
+
+.patch-list-item .patch-list-item-tile {
+    width: calc(100% / 8);
+    aspect-ratio: 1 / 1;
+}
+
+#patch-list-page-numbers-container {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}

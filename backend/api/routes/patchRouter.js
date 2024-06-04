@@ -10,11 +10,27 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', async (req, res) => {
-    console.log(req.body);
+    console.log(req.body)
     const { patchPixelHexes } = req.body;
     const result = await PatchService.addPatch(patchPixelHexes);
     let res_status = result.status === 'error' ? 500 : 200;
     sendRes(res, res_status, result.message);
+});
+
+router.get('/list/:start_index/:end_index', async (req, res) => {
+    const start_index = parseInt(req.params.start_index, 10);
+    const end_index = parseInt(req.params.end_index, 10);
+    const result = await PatchService.getPatchesByRange(start_index, end_index);
+    let res_status = result.status === 'error' ? 500 : 200;
+    sendRes(res, res_status, result.message, result.data);
+    return;
+});
+
+router.get('/list/count', async (req, res) => {
+    const result = await PatchService.getPatchCount();
+    let res_status = result.status === 'error' ? 500 : 200;
+    sendRes(res, res_status, result.message, result.data);
+    return;
 });
 
 router.get('/list', async (req, res) => {

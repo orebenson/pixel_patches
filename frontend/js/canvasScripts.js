@@ -72,10 +72,7 @@ async function submitCanvas(canvas_tiles) {
             rgbToHex(window.getComputedStyle(canvas_tiles[i]).getPropertyValue("background-color"))
         );
     }
-    const result = await PatchService.submitPatch(patchPixelHexes);
-
-    if (result === 'error') alert('error uploading patch (it may already exist!)');
-    if (result === 'success') alert('success uploading patch!');
+    await PatchService.submitPatch(patchPixelHexes);
 }
 
 function initCanvas() {
