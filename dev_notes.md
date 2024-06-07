@@ -1,7 +1,7 @@
 
 =============================================================================
 
-## TODO for Current Version (v1.0) (in order of priority)
+## TODO for Current Version (v1.1) (in order of priority)
 ### frontend
 - handle navbar text overlapping on small screens
 
@@ -11,38 +11,19 @@
 
 ## Version plan
 ### v1.0 - MVP
-frontend
-- navbar 
-    - create/home page
-        - short explanation of site
-        - colour palette side bar 
-        - 8 x 8 canvas
-        - button to upload
-            - convert image to 
-    - gallery
-        - show all created art with dates and times
-    
-backend
-- database
-    - literally doesnt matter which
-- api
-    - POST new /patch
-        - if art exists - return error
-        - else: store art in DB
-    - GET all /patch
 
 ### v1.1 - validation and code quality
+- change backend to typescript
 - create response handler 
     - create response type (status, message, data)
     - create request type (basic validator - json containing patch hexes)
 - manage message passing between application layers
-- change backend to typescript
-- create middleware module for validation
-    - Validator.validateAddPatch() > check for session_id header (see if user is logged in)
-    - Validator.validateGetPatches()
-    - Validator.validateSignUp()
-    - Validator.validateSignIn()
-    - Validator.validateLogout() > check for session_id header (see if user is logged in)
+- create middleware module for simple input validation (check types, etc)
+    - Validator.validateAddPatch(req) > return { valid: true/false, session_id: null/id, patch: array }
+    - Validator.validateGetPatches(req) > return { valid: true/false }
+    - Validator.validateSignUp(req) > return { valid: true/false, body: {} }
+    - Validator.validateSignIn(req) > return { valid: true/false, body: {email: "", username: "", password: ""}}
+    - Validator.validateLogout(req) > check for session_id header (see if user is logged in)
 
 ### v1.2 - signup, signin, sessions
 - add user sugnup:  Validator.validateSignUp() > Security.createUser() 
