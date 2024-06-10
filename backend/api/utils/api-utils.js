@@ -10,10 +10,9 @@ export function handleRequest(service) {
 }
 
 export async function handleResponse(res, status, message = '', data = {}) {
-    let res_status = status === 'error' ? 500 : 200;
-    res.status(res_status);
+    res.status(status);
     res.json({
-        res_status,
+        status,
         message,
         data
     });

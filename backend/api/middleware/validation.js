@@ -25,7 +25,8 @@ export function validate(field_validation_functions={}) {
 
         if (errors.length > 0) {
             console.log('Validation Errors: ', errors);
-            return handleResponse(res, 400, 'Validation failed');
+            handleResponse(res, 400, 'Validation failed');
+            return;
         }
 
         next();
