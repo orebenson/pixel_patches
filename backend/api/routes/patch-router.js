@@ -10,23 +10,17 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', async (req, res) => {
-    // console.log(req.body);
-
-    const params = {
+    const result = await PatchService.addPatch({
         patchPixelHexes: req.body.patchPixelHexes
-    }
-
-    const result = await PatchService.addPatch(params);
+    });
     handleResponse(res, result.status, result.message);
 });
 
 router.get('/list/:start_index/:end_index', async (req, res) => {
-    const params = {
+    const result = await PatchService.getPatchesByRange({
         start_index: parseInt(req.params.start_index, 10),
         end_index: parseInt(req.params.end_index, 10)
-    }
-
-    const result = await PatchService.getPatchesByRange(params);
+    });
     handleResponse(res, result.status, result.message, result.data);
     return;
 });
