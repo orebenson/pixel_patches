@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import addApiRoutes from './api/routes/routes.js';
 import mongoose from 'mongoose';
-import { dropCollectionIfExists } from './api/utils/dbUtils.js'
+import { dropCollectionIfExists } from './api/utils/db-utils.js'
 
 // db connection
 const db_url = process.env.DB_URL;

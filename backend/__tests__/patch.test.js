@@ -1,8 +1,8 @@
 import app from '../app';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import { dropCollectionIfExists } from '../api/utils/dbUtils.js';
-import { Patch } from '../api/schemas/patchSchema.js';
+import { dropCollectionIfExists } from '../api/utils/db-utils.js';
+import { Patch } from '../api/schemas/patch-schema.js';
 
 
 const testHexArrays = {

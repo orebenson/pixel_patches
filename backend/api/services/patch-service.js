@@ -1,6 +1,7 @@
-import { Patch } from '../schemas/patchSchema.js';
+import { Patch } from '../schemas/patch-schema.js';
 
-export async function addPatch(patchPixelHexes) {
+export async function addPatch(params) {
+    const patchPixelHexes = params.patchPixelHexes;
     try {
         if (patchPixelHexes.length !== 64) {
             throw new Error('length of patchPixelHexes must be 64');
@@ -26,7 +27,9 @@ export async function getAllPatches() {
     }
 }
 
-export async function getPatchesByRange(start_index, end_index) {
+export async function getPatchesByRange(params) {
+    const start_index = params.start_index;
+    const end_index = params.end_index;
     try {
         if (start_index < 0 || end_index < 0 || end_index < start_index) {
             throw new Error('start index or end index is out of bounds');
