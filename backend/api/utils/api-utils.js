@@ -1,5 +1,9 @@
-export function handleRequest(service, params={}) {
-    return async (req, res, next) => {
+export function handleRequest(service) {
+    return async (req, res) => {
+        const params = {
+            ...req.body,
+            ...req.params
+        };
         const result = await service(params);
         handleResponse(res, result.status, result.message, result.data);
     }

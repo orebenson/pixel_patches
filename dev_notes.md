@@ -6,12 +6,6 @@
 - handle navbar text overlapping on small screens
 
 ### backend
-- add validator middleware
-    - Validator.validateAddPatch(req) > return { valid: true/false, session_id: null/id, patch: array }
-    - Validator.validateGetPatches(req) > return { valid: true/false }
-    - Validator.validateSignUp(req) > return { valid: true/false, body: {} }
-    - Validator.validateSignIn(req) > return { valid: true/false, body: {email: "", username: "", password: ""}}
-    - Validator.validateLogout(req) > check for session_id header (see if user is logged in)
 
 =============================================================================
 
@@ -19,9 +13,6 @@
 ### v1.0 - MVP
 
 ### v1.1 - validation and code quality
-- create response handler 
-- manage message passing between application layers
-- create middleware module for simple input validation (check types, etc)
     
 
 ### v1.2 - signup, signin, sessions

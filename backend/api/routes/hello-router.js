@@ -5,6 +5,7 @@ const router = Router();
 
 router.get('/', (req, res) => {
     handleResponse(res, 200, 'hello world');
+    return;
 })
 
 export default router;

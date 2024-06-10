@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as PatchService from "../services/patch-service.js"
-import { handleResponse } from "../utils/api-utils.js"
+import { handleRequest, handleResponse } from "../utils/api-utils.js"
+import * as Validator from "../middleware/validation.js"
 
 const router = Router();
 
@@ -9,32 +10,23 @@ router.get('/', (req, res) => {
     return;
 });
 
-router.post('/add', async (req, res) => {
-    const result = await PatchService.addPatch({
-        patchPixelHexes: req.body.patchPixelHexes
-    });
-    handleResponse(res, result.status, result.message);
-});
+router.post('/add',
+    Validator.validate({
+        patchPixelHexes: value => Array.isArray(value) && value.length === 64
+    }),
+    handleRequest(PatchService.addPatch)
+);
 
-router.get('/list/:start_index/:end_index', async (req, res) => {
-    const result = await PatchService.getPatchesByRange({
-        start_index: parseInt(req.params.start_index, 10),
-        end_index: parseInt(req.params.end_index, 10)
-    });
-    handleResponse(res, result.status, result.message, result.data);
-    return;
-});
+router.get('/list/:start_index/:end_index',
+    Validator.validate({
+        start_index: value => Number.isInteger(parseInt(value, 10)) && value >= 0,
+        end_index: value => Number.isInteger(parseInt(value, 10)) && value >= 0,
+    }),
+    handleRequest(PatchService.getPatchesByRange)
+);
 
-router.get('/list/count', async (req, res) => {
-    const result = await PatchService.getPatchCount();
-    handleResponse(res, result.status, result.message, result.data);
-    return;
-});
+router.get('/list/count', handleRequest(PatchService.getPatchCount));
 
-router.get('/list', async (req, res) => {
-    const result = await PatchService.getAllPatches();
-    handleResponse(res, result.status, result.message, result.data);
-    return;
-});
+router.get('/list', handleRequest(PatchService.getAllPatches));
 
 export default router;

@@ -3,17 +3,14 @@ import { Patch } from '../schemas/patch-schema.js';
 export async function addPatch(params) {
     const patchPixelHexes = params.patchPixelHexes;
     try {
-        if (patchPixelHexes.length !== 64) {
-            throw new Error('length of patchPixelHexes must be 64');
-        }
         const patch = new Patch({
             patchPixelHexes: patchPixelHexes
         });
         await patch.save();
-        return { status: 'success', message: 'success saving patch' };
+        return { status: 'success', message: 'success saving patch', data: {} };
     } catch (error) {
         console.log(`error: ${error}`);
-        return { status: 'error', message: 'error saving patch' };
+        return { status: 'error', message: 'error saving patch', data: {} };
     }
 }
 
@@ -28,11 +25,11 @@ export async function getAllPatches() {
 }
 
 export async function getPatchesByRange(params) {
-    const start_index = params.start_index;
-    const end_index = params.end_index;
+    const start_index = parseInt(params.start_index, 10);
+    const end_index = parseInt(params.end_index, 10);
     try {
-        if (start_index < 0 || end_index < 0 || end_index < start_index) {
-            throw new Error('start index or end index is out of bounds');
+        if (end_index < start_index) {
+            throw new Error('start index is less than end index');
         }
         const totalDocuments = await Patch.countDocuments({});
         if (end_index > totalDocuments || start_index > totalDocuments) {
