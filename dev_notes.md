@@ -1,26 +1,18 @@
 
 =============================================================================
 
-## TODO for Current Version (v1.1) (in order of priority)
+## TODO for Current Version (v1.2) (in order of priority)
 ### frontend
 - handle navbar text overlapping on small screens
+- add register
+- add login page
 
 ### backend
-
-=============================================================================
-
-## Version plan
-### v1.0 - MVP
-
-### v1.1 - validation and code quality
-    
-
-### v1.2 - signup, signin, sessions
-- add user sugnup:  Validator.validateSignUp() > Security.createUser() 
-    - simple signup form with email, username, password
+- add user register:  Validator.validate() > Security.createUser() 
+    - simple register form with email, username, password
     - create user schema
     - add user id field to patch
-- add login (sessions):  Validator.validateSignIn() > Security.signIn() (returns session id)
+- add login (sessions):  Validator.validate() > Security.signIn() (returns session id)
     - simple login form
     - create module for auth and token handling (see monkeytype)
         - send user session id with signature
@@ -29,6 +21,18 @@
     - create separate module for checking user permissions (see monkeytype)
 - add forgot password (send email with reset link)
     - simple reset password form for that user
+
+=============================================================================
+
+## Version plan
+### v1.0 - MVP
+
+### v1.1 - validation and code quality
+
+### v1.2 - register, signin, sessions
+- add user sugnup
+- add login
+- add forgot password
 
 ### v1.3 - api security
 - secure API to industry standard:
