@@ -23,7 +23,7 @@
     - simple reset password form for that user
 
 =============================================================================
-
+- see 'Rooms' game on iphone for references
 ## Version plan
 ### v1.0 - MVP
 
