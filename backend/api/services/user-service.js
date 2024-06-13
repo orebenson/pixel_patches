@@ -13,7 +13,7 @@ export async function addUser(params = { email: '', username: '', password: '' }
         await user.save();
         return { status: 200, message: 'success saving user', data: {} };
     } catch (error) {
-        console.log(`error: ${error}`);
+        console.error(`User error: ${error}`);
         return { status: 500, message: 'error saving user', data: {} };
     }
 }

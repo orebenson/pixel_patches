@@ -7,8 +7,8 @@ const validateField = (fieldName, value, validationFunction) => {
     return null;
 };
 
-export function validate(field_validation_functions={}) {
-    return (req, res, next) => {
+export function validateFields(field_validation_functions={}) {
+    return async (req, res, next) => {
         const errors = [];
 
         const data = {
@@ -24,8 +24,8 @@ export function validate(field_validation_functions={}) {
         }
 
         if (errors.length > 0) {
-            console.log('Validation Errors: ', errors);
-            handleResponse(res, 400, 'Validation failed');
+            console.error('Validation Errors: ', errors);
+            await handleResponse(res, 400, 'Validation failed');
             return;
         }
 

@@ -9,7 +9,7 @@ export async function addPatch(params = { patchPixelHexes: [] }) {
         await patch.save();
         return { status: 200, message: 'success saving patch', data: {} };
     } catch (error) {
-        console.log(`error: ${error}`);
+        console.error(`patch error: ${error}`);
         return { status: 500, message: 'error saving patch', data: {} };
     }
 }
@@ -19,7 +19,7 @@ export async function getAllPatches() {
         const patches = await Patch.find({}).select('patchPixelHexes -_id');
         return { status: 200, message: 'success getting patches', data: patches };;
     } catch (error) {
-        console.log(`error ${error}`)
+        console.error(`patch error ${error}`)
         return { status: 500, message: 'error getting patches', data: {} };;
     }
 }
@@ -46,7 +46,7 @@ export async function getPatchesByRange(params = { start_index: 0, end_index: 0 
             .select('patchPixelHexes -_id');
         return { status: 200, message: 'success getting patches', data: patches };
     } catch (error) {
-        console.log(`error ${error}`);
+        console.error(`patch error ${error}`);
         return { status: 500, message: 'error getting patches', data: {} };
     }
 }
@@ -56,7 +56,7 @@ export async function getPatchCount() {
         const patchCount = await Patch.countDocuments({});
         return { status: 200, message: 'success getting patch count', data: { patchCount } };
     } catch (error) {
-        console.log(`error ${error}`)
+        console.error(`patch error ${error}`)
         return { status: 500, message: 'error getting patch count', data: {} };;
     }
 }

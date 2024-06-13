@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { User } from './user-schema.js'
 
 const patchSchema = new mongoose.Schema({
     patchPixelHexes: { 
@@ -10,6 +11,18 @@ const patchSchema = new mongoose.Schema({
                 return !existingPatch;
             },
             message: 'Pixel Patches must be unique'
+        }
+    },
+    username: {
+        type: String,
+        default: '', 
+        validate: {
+            validator: async function(value) {
+                if (!value) return true;
+                const existingUser = await User.findOne({ username: value });
+                return !!existingUser;
+            },
+            message: 'Username must exist in user schema'
         }
     },
     date: { 

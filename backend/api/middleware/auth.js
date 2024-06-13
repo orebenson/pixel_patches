@@ -1,17 +1,26 @@
-export function hash(password) {
-    return (req, res, next) => {
-        // const salt = 10;
-        // req.body.password = bcrypt.hash(req.body.password, salt);
+import bcrypt from 'bcrypt';
 
-        next();
+export function hashPassword() {
+    return async (req, res, next) => {
+        try {
+            const salt_rounds = 10;
+            const salt = await bcrypt.genSalt(salt_rounds);
+            req.body.password = await bcrypt.hash(req.body.password, salt);
+            next();
+        } catch (error) {
+            console.error('Password Errors: ', error);
+            await handleResponse(res, 400, 'New user failed');
+        }
+    };
+}
+
+export async function passwordMatch(hash, inputPassword) {
+    try {
+        const result = await bcrypt.compare(inputPassword, hash);
+        return result;
+    } catch (error) {
+        console.error('Password Match Error: ', error);
+        return false;
     }
 }
 
-export function compare(hash, password) {
-    return (req, res, next) => {
-        // validate password with bcrypt
-        
-
-        next();
-    }
-}

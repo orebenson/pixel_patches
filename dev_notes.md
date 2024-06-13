@@ -5,13 +5,15 @@
 ### frontend
 - handle navbar text overlapping on small screens
 - add register
+    - submit {
+        email: email format less than 64 digits
+        username: string less than 64 digits
+        password:
+    }
 - add login page
 
 ### backend
-- add user register:  Validator.validate() > Security.createUser() 
-    - simple register form with email, username, password
-    - create user schema
-    - add user id field to patch
+- add user register 
 - add login (sessions):  Validator.validate() > Security.signIn() (returns session id)
     - simple login form
     - create module for auth and token handling (see monkeytype)
