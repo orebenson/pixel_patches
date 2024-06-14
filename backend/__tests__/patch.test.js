@@ -1,8 +1,8 @@
-import app from '../app';
+import app from '../src/app.js';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import { dropCollectionIfExists } from '../api/utils/db-utils.js';
-import { Patch } from '../api/schemas/patch-schema.js';
+import { dropCollectionIfExists } from '../src/api/utils/db-utils.js';
+import { Patch } from '../src/api/schemas/patch-schema.js';
 
 const testHexArrays = {
     HEX_ARRAY_1: Array(64).fill('#000000'),

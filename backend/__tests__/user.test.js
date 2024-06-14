@@ -1,8 +1,8 @@
-import app from '../app';
+import app from '../src/app';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import { dropCollectionIfExists } from '../api/utils/db-utils.js';
-import { User } from '../api/schemas/user-schema.js';
+import { dropCollectionIfExists } from '../src/api/utils/db-utils.js';
+import { User } from '../src/api/schemas/user-schema.js';
 
 const request = supertest(app);
 
