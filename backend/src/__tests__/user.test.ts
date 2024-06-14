@@ -1,13 +1,14 @@
-import app from '../src/app';
+import app from '../app';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import { dropCollectionIfExists } from '../src/api/utils/db-utils.js';
-import { User } from '../src/api/schemas/user-schema.js';
+import { dropCollectionIfExists } from '../api/utils/db-utils';
+import { describe, test, expect } from "@jest/globals";
+// import { User } from '../src/api/schemas/user-schema';
 
 const request = supertest(app);
 
 beforeEach(async () => {
-    const db_url = process.env.DB_URL;
+    const db_url : string = String(process.env.DB_URL);
     await mongoose.connect(db_url).then(
         async () => {
             console.log(`Database connected on ${db_url}`);

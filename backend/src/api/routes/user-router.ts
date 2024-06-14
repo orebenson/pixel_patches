@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as UserService from "../services/user-service.js"
-import { handleRequest, handleResponse } from "../utils/api-utils.js"
-import { validateFields } from "../middleware/validation.js"
-import * as Auth from "../middleware/auth.js"
+import * as UserService from "../services/user-service"
+import { handleRequest, handleResponse } from "../utils/api-utils"
+import { validateFields } from "../middleware/validation"
+import * as Auth from "../middleware/auth"
 
 const router = Router();
 

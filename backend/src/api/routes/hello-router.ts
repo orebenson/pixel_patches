@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { handleResponse } from "../utils/api-utils.js"
+import { handleResponse } from "../utils/api-utils"
 
 const router = Router();
 

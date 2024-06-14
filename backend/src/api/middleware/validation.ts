@@ -1,4 +1,4 @@
-import { handleResponse } from '../utils/api-utils.js';
+import { handleResponse } from '../utils/api-utils';
 
 const validateField = (fieldName, value, validationFunction) => {
     if (!validationFunction(value)) {

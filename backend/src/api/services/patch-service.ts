@@ -1,4 +1,4 @@
-import { Patch } from '../schemas/patch-schema.js';
+import { Patch } from '../schemas/patch-schema';
 
 export async function addPatch(params = { patchPixelHexes: [] }) {
     const patchPixelHexes = params.patchPixelHexes;
@@ -25,8 +25,8 @@ export async function getAllPatches() {
 }
 
 export async function getPatchesByRange(params = { start_index: 0, end_index: 0 }) {
-    const start_index = parseInt(params.start_index, 10);
-    let end_index = parseInt(params.end_index, 10);
+    const start_index = parseInt(String(params.start_index), 10);
+    let end_index = parseInt(String(params.end_index), 10);
     if (start_index === end_index) return { status: 200, message: 'success getting patches', data: [] };
     try {
         if (end_index < start_index) {

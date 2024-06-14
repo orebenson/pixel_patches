@@ -1,4 +1,4 @@
-import { User } from '../schemas/user-schema.js';
+import { User } from '../schemas/user-schema';
 
 export async function addUser(params = { email: '', username: '', password: '' }) {
     const email = params.email;

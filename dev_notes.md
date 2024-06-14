@@ -1,3 +1,19 @@
+tmp
+
+// "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --transform '{}'"
+
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+export default {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  coveragePathIgnorePatterns: [
+    '/node_modules/'
+  ],
+  setupFilesAfterEnv: [
+    'dotenv/config'
+  ]
+};
+
 
 =============================================================================
 

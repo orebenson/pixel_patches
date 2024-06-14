@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { handleResponse } from "../utils/api-utils";
 
 export function hashPassword() {
     return async (req, res, next) => {

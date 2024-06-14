@@ -1,6 +1,6 @@
-import patchRouter from './patch-router.js'
-import helloRouter from './hello-router.js'
-import userRouter from './user-router.js'
+import patchRouter from './patch-router'
+import helloRouter from './hello-router'
+import userRouter from './user-router'
 
 const apiRoutes  = [
     ['/', helloRouter],

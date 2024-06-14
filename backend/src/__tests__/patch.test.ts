@@ -1,8 +1,9 @@
-import app from '../src/app.js';
+import app from '../app';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import { dropCollectionIfExists } from '../src/api/utils/db-utils.js';
-import { Patch } from '../src/api/schemas/patch-schema.js';
+import { dropCollectionIfExists } from '../api/utils/db-utils';
+import { Patch } from '../api/schemas/patch-schema';
+import { describe, test, expect } from "@jest/globals";
 
 const testHexArrays = {
     HEX_ARRAY_1: Array(64).fill('#000000'),
@@ -20,7 +21,7 @@ function generateHexArray(array_id, index) {
     };
 
     const pattern = arrayPatterns[array_id];
-    const result = [];
+    const result : string[] = [];
     const repeatCount = 16;
 
     if (pattern) {
@@ -38,7 +39,7 @@ function generateHexArray(array_id, index) {
 const request = supertest(app);
 
 beforeEach(async () => {
-    const db_url = process.env.DB_URL;
+    const db_url : string = String(process.env.DB_URL);
     await mongoose.connect(db_url).then(
         async () => {
             console.log(`Database connected on ${db_url}`);
@@ -60,7 +61,7 @@ describe('POST /patch/add', () => {
 
         const patch = await Patch.findOne({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 });
         expect(patch).not.toBeNull();
-        expect(patch.patchPixelHexes).toEqual(testHexArrays.HEX_ARRAY_1);
+        expect(patch?.patchPixelHexes).toEqual(testHexArrays.HEX_ARRAY_1);
     });
 
     it('Adds two different patches, that share a colour', async () => {
@@ -103,7 +104,7 @@ describe('POST /patch/add', () => {
 
 describe('GET /patch/list', () => {
     it('Gets the list of patches', async () => {
-        await Patch({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 }).save();
+        await new Patch({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 }).save();
 
         const response = await request.get('/patch/list');
         expect(response.status).toBe(200);
@@ -139,7 +140,7 @@ describe('GET /patch/list', () => {
 describe('GET /patch/list/:start_index/:end_index', () => {
     it('Gets the list of patches from index 0 to 10', async () => {
         for (let i = 0; i < 10; i++) {
-            await Patch({ patchPixelHexes: generateHexArray(1, i) }).save()
+            await new Patch({ patchPixelHexes: generateHexArray(1, i) }).save()
         }
 
         const response = await request.get('/patch/list/0/10');
@@ -154,7 +155,7 @@ describe('GET /patch/list/:start_index/:end_index', () => {
 
     it('Returns empty list when start_index equals end_index', async () => {
         for (let i = 0; i < 10; i++) {
-            await Patch({ patchPixelHexes: generateHexArray(1, i) }).save()
+            await new Patch({ patchPixelHexes: generateHexArray(1, i) }).save()
         }
         const response = await request.get('/patch/list/5/5');
         expect(response.status).toBe(200);
@@ -163,7 +164,7 @@ describe('GET /patch/list/:start_index/:end_index', () => {
 
     it('Returns partial list of patches', async () => {
         for (let i = 0; i < 5; i++) {
-            await Patch({ patchPixelHexes: generateHexArray(1, i) }).save();
+            await new Patch({ patchPixelHexes: generateHexArray(1, i) }).save();
         }
 
         const response = await request.get('/patch/list/0/10');
@@ -206,7 +207,7 @@ describe('GET /patch/list/:start_index/:end_index', () => {
 describe('GET /patch/list/count', () => {
     it('Gets the count of patches', async () => {
         for (let i = 0; i < 10; i++) {
-            await Patch({ patchPixelHexes: generateHexArray(1, i) }).save()
+            await new Patch({ patchPixelHexes: generateHexArray(1, i) }).save()
         }
 
         const response = await request.get('/patch/list/count');
