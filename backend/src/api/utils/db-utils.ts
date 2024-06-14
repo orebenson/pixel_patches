@@ -1,4 +1,6 @@
-export async function dropCollectionIfExists(collection, db_connection) {
+import mongoose from "mongoose";
+
+export async function dropCollectionIfExists(collection: string, db_connection: mongoose.Connection) {
     try {
         const collections = await db_connection.db.listCollections().toArray();
         const collectionExists = collections.some(name => name.name === collection);
