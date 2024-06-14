@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import mongoose from 'mongoose';
 import { dropCollectionIfExists } from '../api/utils/db-utils';
 import { Patch } from '../api/schemas/patch-schema';
-import { describe, test, expect } from "@jest/globals";
+import { describe, expect, beforeEach, afterEach, it } from "@jest/globals";
 
 const testHexArrays = {
     HEX_ARRAY_1: Array(64).fill('#000000'),
@@ -39,25 +39,33 @@ function generateHexArray(array_id, index) {
 const request = supertest(app);
 
 beforeEach(async () => {
-    const db_url : string = String(process.env.DB_URL);
-    await mongoose.connect(db_url).then(
-        async () => {
-            console.log(`Database connected on ${db_url}`);
-        },
-        error => { console.log(`Database connection error: ${error}`); throw error; }
-    )
+    const db_url = process.env.DB_URL;
+    try {
+        await mongoose.connect(String(db_url));
+        console.log(`Database connected on ${db_url}`);
+    } catch (error) {
+        console.error(`Database connection error: ${error}`);
+        throw error;
+    }
 });
 
 afterEach(async () => {
-    await dropCollectionIfExists('patches', mongoose.connection).then(
-        async () => { await mongoose.connection.close() }
-    )
+    try {
+        await dropCollectionIfExists('patches', mongoose.connection);
+        await mongoose.connection.close();
+    } catch (error) {
+        console.error('Error during teardown:', error);
+        throw error;
+    }
 });
+
 
 describe('POST /patch/add', () => {
     it('Adds a new patch', async () => {
         const response = await request.post('/patch/add').send({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 });
         expect(response.status).toBe(200);
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         const patch = await Patch.findOne({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 });
         expect(patch).not.toBeNull();

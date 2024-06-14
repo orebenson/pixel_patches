@@ -1,18 +1,4 @@
-tmp
 
-// "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --transform '{}'"
-
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-export default {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  coveragePathIgnorePatterns: [
-    '/node_modules/'
-  ],
-  setupFilesAfterEnv: [
-    'dotenv/config'
-  ]
-};
 
 
 =============================================================================
@@ -91,6 +77,7 @@ frontend - firebase hosting
 - caching of recently uploaded patches
 - WebComponents for simple parts such as header
 - simple architecture for state management (canvas, list)
+- add eslint and prettier for backend
 
 + General features
 - dimensions can be from 2,4,8,16,32,64 (they are all 64 x 64) (page starts on 8x8)
