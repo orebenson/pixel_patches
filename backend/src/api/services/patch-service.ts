@@ -1,6 +1,7 @@
 import { Patch } from '../schemas/patch-schema';
 
-export async function addPatch(params = { patchPixelHexes: [] }) {
+export async function addPatch(params = { username: null, patchPixelHexes: [] }) {
+    const username = params.username ? params.username : null;
     const patchPixelHexes = params.patchPixelHexes;
     try {
         const patch = new Patch({

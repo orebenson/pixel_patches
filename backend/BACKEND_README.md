@@ -4,8 +4,10 @@
 
 1. Create a `.env` file with the following variables:
    ```
-   PORT=your_port_number
-   DB_URL=your_database_url
+   DB_URL=mongodb_url
+   FRONTEND_URL=frontend_url
+   PORT=port_number
+   SESSION_SECRET=your_secret
    ```
 
 2. Start the server:

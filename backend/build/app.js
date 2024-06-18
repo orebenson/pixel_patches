@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,22 +8,50 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./api/routes/routes"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const express_session_1 = __importDefault(require("express-session"));
+const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const db_utils_1 = require("./api/utils/db-utils");
+const DB_URL = process.env.DB_URL;
+const SESSION_DB_URL = process.env.SESSION_DB_URL;
+const FRONTEND_URL = process.env.FRONTEND_URL;
+const SESSION_SECRET = process.env.SESSION_SECRET;
 // db connection
-const db_url = process.env.DB_URL;
-mongoose_1.default.connect(db_url).then(() => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(`Database connected on ${db_url}`);
-    yield (0, db_utils_1.dropCollectionIfExists)('patches', mongoose_1.default.connection);
-}), error => { console.log(`Database connection error: ${error}`); });
+const db_url = DB_URL;
+try {
+    mongoose_1.default.connect(db_url).then(() => {
+        console.log(`Database connected on ${db_url}`);
+        (0, db_utils_1.dropCollectionIfExists)('users', mongoose_1.default.connection);
+        (0, db_utils_1.dropCollectionIfExists)('patches', mongoose_1.default.connection);
+    });
+}
+catch (error) {
+    console.error(`Database connection error: ${error}`);
+    throw error;
+}
 // express app
 const app = (0, express_1.default)();
 // middleware
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
+    origin: FRONTEND_URL,
     optionsSuccessStatus: 200
 };
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
+app.use((0, express_session_1.default)({
+    secret: SESSION_SECRET,
+    name: 'sid',
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 8, //milliseconds - 8 hours
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: connect_mongo_1.default.create({
+        mongoUrl: SESSION_DB_URL,
+        collectionName: 'sessions',
+    })
+}));
 app.use((req, res, next) => {
     console.log(req.method, req.path);
     next();

@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPatchCount = exports.getPatchesByRange = exports.getAllPatches = exports.addPatch = void 0;
 const patch_schema_1 = require("../schemas/patch-schema");
 function addPatch() {
-    return __awaiter(this, arguments, void 0, function* (params = { patchPixelHexes: [] }) {
+    return __awaiter(this, arguments, void 0, function* (params = { username: null, patchPixelHexes: [] }) {
+        const username = params.username ? params.username : null;
         const patchPixelHexes = params.patchPixelHexes;
         try {
             const patch = new patch_schema_1.Patch({

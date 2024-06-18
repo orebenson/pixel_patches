@@ -1,55 +1,44 @@
 
+testing notes?:
 
+npm test -- -t '/POST /user'
+npm test -- -t 'Adds new user and tries to login'
 
 =============================================================================
 
-## TODO for Current Version (v1.2) (in order of priority)
-### frontend
-- handle navbar text overlapping on small screens
-- add register
-    - submit {
-        email: email format less than 64 digits
-        username: string less than 64 digits
-        password:
-    }
-- add login page
+## features TODO for Current Version (v1.2) (in order of priority)
++ register feature
+    - backend: add /user/register and handler [done]
+    - frontend: add register page - { email: email format less than 64 digits, username: string less than 64 digits, password: ''}
 
-### backend
-- [done] add user register 
-- add sessions (login/logout/requests): security > validator > services
- 
-    - create module for auth and token handling (see monkeytype, and owasp page on sessions)
++ login feature
+    - backend: add /login and login handler[done]
+    - frontend: add login page - on login, server can return the users username, to be stored in localstorage, loaded, and dispayed on each page load
 
-    - login handler -- /login
-        - 1 - check that user password matches with their password in database
-        - 2 - generate: {session_id, signature (prevent tampering), logged_in_user_id, expiry_time} and put in token database
-        - 3 - send user session_id, signed with signature, in secure cookie
-    - request handler session validation (middleware for all requests) -- /patch/**
-        - (to check if a user is logged in, and retrieve their id, and information if they are)
-        - 1 - on each request, check if there is a session id in the header/cookie or whatever
-        - 2 - if there is:
-            - 2.1 - if the session is expired, revoke session and redirect to login page
-            - 2.2 - if the session is close to expiry, generate a new session and send {session_id, signature (prevent tampering), logged_in_user_id, expiry_time} to user
-            - 2.3 - if the session is valid, continue and fetch relevant user data (their patches/profile whatever)
-        - 3 - if there isnt:
-            - 3.1 - deny the request if they are trying to access a user-only route
-    - logout handler -- /logout
-        - 1 - if no session id, redirect user to login page
-        - 2 - if session id, revoke session
++ logout feature
+    - backend: add /logout and logout handler [done]
+    - frontend: add logout button - if backend returns user not logged in, redirect to login page
+    - backend: add logout tests
 
-- add forgot password (send email with reset link)
-    - simple reset password form for that user
++ session management per request
+    - backend: session handler, session validation (middleware for all requests) -- /patch/**
+
++ forgot password feature
+    - backend: add /user/resetpassword (send email with reset link)
+    - frontend: add reset password pages
+
++ usability
+    - frontend: handle navbar text overlapping on small screens
 
 =============================================================================
 - see 'Rooms' game on iphone for references
 ## Version plan
 ### v1.0 - MVP
-
 ### v1.1 - validation and code quality
-
 ### v1.2 - register, signin, sessions
 - add user register
 - add login
+- add session checks per request 
 - add logout
 - add forgot password
 
@@ -59,6 +48,8 @@
 - create security middleware module to handle exposed api concerns
     - NoSQL injection
     - Rate limiting (ddos)
+        - users/ips can only send a limited amount per day
+        - additional ddos protection 
     - Input validation and sanitation
     - Error handling (status codes)
     - CORS (only allow use from specific IPs) - prevent XSS
@@ -86,6 +77,7 @@ frontend - firebase hosting
     - group patches into themes for sorting?
 - custom compression/decompression utility written in c and called by backend
     - must be deterministoc for 64 x 64
+- add gif animation options (each frame is its own patch)
 
 + Real-time features
 - analytics dashboard to show live number of users, most popular colours, number of uploads per day
@@ -96,5 +88,6 @@ frontend - firebase hosting
 + Social features
 - limit uploads from each client daily (1 per day?)
 - user has a number of likes to give out per day
+- add a sharing option to share new patches on different platforms
 
 

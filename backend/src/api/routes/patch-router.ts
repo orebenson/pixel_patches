@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as PatchService from "../services/patch-service"
 import { handleRequest, handleResponse } from "../utils/api-utils"
 import { validateFields } from "../middleware/validation"
-import * as Auth from "../middleware/auth"
+import { handleAuth } from "../middleware/auth"
 
 const router = Router();
 

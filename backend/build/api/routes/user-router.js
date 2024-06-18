@@ -27,14 +27,18 @@ const express_1 = require("express");
 const UserService = __importStar(require("../services/user-service"));
 const api_utils_1 = require("../utils/api-utils");
 const validation_1 = require("../middleware/validation");
-const Auth = __importStar(require("../middleware/auth"));
+const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => {
     (0, api_utils_1.handleResponse)(res, 200, 'success user');
     return;
 });
-router.post('/add', Auth.hashPassword(), (0, validation_1.validateFields)({
+router.post('/register', (0, auth_1.handleRegister)(), (0, validation_1.validateFields)({
     email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     username: value => value.length < 64 && value.length > 2
 }), (0, api_utils_1.handleRequest)(UserService.addUser));
+router.post('/login', (0, validation_1.validateFields)({
+    email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}), (0, auth_1.handleLogin)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Login user success'));
+router.get('/logout', (0, auth_1.handleLogout)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Logout user success'));
 exports.default = router;

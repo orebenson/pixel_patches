@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUser = void 0;
+exports.getUserByUsername = exports.getUserById = exports.getUserByEmail = exports.addUser = void 0;
 const user_schema_1 = require("../schemas/user-schema");
 function addUser() {
     return __awaiter(this, arguments, void 0, function* (params = { email: '', username: '', password: '' }) {
@@ -32,3 +32,51 @@ function addUser() {
     });
 }
 exports.addUser = addUser;
+function getUserByEmail(params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { email } = params;
+        try {
+            const user = yield user_schema_1.User.findOne({ email: email });
+            if (!user)
+                throw new Error('User does not exist');
+            return user;
+        }
+        catch (error) {
+            console.error(`User error: ${error}`);
+            return null;
+        }
+    });
+}
+exports.getUserByEmail = getUserByEmail;
+function getUserById() {
+    return __awaiter(this, arguments, void 0, function* (params = { uid: '' }) {
+        const { uid } = params;
+        try {
+            const user = yield user_schema_1.User.findOne({ _id: uid });
+            if (!user)
+                throw new Error('User does not exist');
+            return user;
+        }
+        catch (error) {
+            console.error(`User error: ${error}`);
+            return null;
+        }
+    });
+}
+exports.getUserById = getUserById;
+function getUserByUsername() {
+    return __awaiter(this, arguments, void 0, function* (params = { username: '' }) {
+        const { username } = params;
+        try {
+            const user = yield user_schema_1.User.findOne({ username: username });
+            if (!user)
+                throw new Error('User does not exist');
+            return user;
+        }
+        catch (error) {
+            console.error(`User error: ${error}`);
+            return null;
+        }
+    });
+}
+exports.getUserByUsername = getUserByUsername;

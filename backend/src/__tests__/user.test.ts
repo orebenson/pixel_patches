@@ -46,10 +46,27 @@ const testUsers = {
     },
 };
 
-describe('POST /user/add', () => {
-    it('Adds new user', async () => {
-        const response = await request.post('/user/add').send(testUsers.TEST_USER_1);
+describe('GET /user', () => {
+    it('Gets the user endpoint', async () => {
+        const response = await request.get('/user');
         expect(response.status).toBe(200);
+    });
+});
+
+describe('POST /user/register', () => {
+    it('Adds new user', async () => {
+        const response = await request.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+    });
+});
+
+describe('POST /user/login', () => {
+    it('Adds new user and tries to login', async () => {
+        const response = await request.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await request.post('/user/login').send(testUsers.TEST_USER_1);
+        expect(response2.status).toBe(200);
     });
 });
 
