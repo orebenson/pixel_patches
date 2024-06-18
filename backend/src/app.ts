@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import addApiRoutes from './api/routes/routes';
 import mongoose from 'mongoose';
 import session from 'express-session';
@@ -16,13 +17,11 @@ const SESSION_SECRET = process.env.SESSION_SECRET;
 const db_url = DB_URL;
 
 try {
-    mongoose.connect(db_url).then(
-        () => {
-            console.log(`Database connected on ${db_url}`);
-            dropCollectionIfExists('users', mongoose.connection);
-            dropCollectionIfExists('patches', mongoose.connection);
-        }
-    )
+    mongoose.connect(db_url).then(() => {
+        console.log(`Database connected on ${db_url}`);
+        dropCollectionIfExists('users', mongoose.connection);
+        dropCollectionIfExists('patches', mongoose.connection);
+    });
 } catch (error) {
     console.error(`Database connection error: ${error}`);
     throw error;
@@ -33,15 +32,15 @@ try {
 const app = express();
 
 // middleware
-const corsOptions = {
+app.use(helmet());
+app.use(cors({
     origin: FRONTEND_URL,
     optionsSuccessStatus: 200
-}
-app.use(cors(corsOptions));
+}));
 app.use(express.json());
 app.use(session({
     secret: SESSION_SECRET,
-    name: 'sid',
+    name: 'xr',
     cookie: {
         httpOnly: true,
         secure: true,
@@ -52,7 +51,6 @@ app.use(session({
     store: MongoStore.create({
         mongoUrl: SESSION_DB_URL,
         collectionName: 'sessions',
-
     })
 }));
 app.use((req, res, next) => {

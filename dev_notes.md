@@ -52,7 +52,8 @@ npm test -- -t 'Adds new user and tries to login'
         - additional ddos protection 
     - Input validation and sanitation
     - Error handling (status codes)
-    - CORS (only allow use from specific IPs) - prevent XSS
+    - Prevent open redirects
+    - Only allow certain number of login requests from a specific source ip
 
 ### v2.0 - deployment
 database - firestore
@@ -69,6 +70,7 @@ frontend - firebase hosting
 - WebComponents for simple parts such as header
 - simple architecture for state management (canvas, list)
 - add eslint and prettier for backend
+- Create types and assign type hints
 
 + General features
 - dimensions can be from 2,4,8,16,32,64 (they are all 64 x 64) (page starts on 8x8)

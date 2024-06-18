@@ -61,7 +61,7 @@ export function handleAuth() {
 export function handleLogout() {
     return async (req, res, next) => {
         try {
-            if(req.session) req.session.destroy();
+            if(req.session) await req.session.destroy();
             next();
         } catch (error) {
             console.error('Logout errors: ', error);
