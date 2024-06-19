@@ -65,6 +65,10 @@ backend - firebase functions
     - sessions - firestore
 frontend - firebase hosting
 
+### v? - minimum for release to public and advertisement
+- get someone on fivver or similar to do a security check
+- add nsfw filtering - upload queue to be accepted by moderator?
+
 =============================================================================
 
 ## Un-assigned features
