@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleLogout = exports.handleAuth = exports.handleLogin = exports.handleRegister = void 0;
+exports.handleAuth = exports.handleLogout = exports.handleLogin = exports.handleRegister = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const api_utils_1 = require("../utils/api-utils");
 const user_service_1 = require("../services/user-service");
@@ -53,6 +53,20 @@ function handleLogin() {
     });
 }
 exports.handleLogin = handleLogin;
+function handleLogout() {
+    return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            if (req.session)
+                yield req.session.destroy();
+            next();
+        }
+        catch (error) {
+            console.error('Logout errors: ', error);
+            (0, api_utils_1.handleResponse)(res, 400, 'Logout user failed');
+        }
+    });
+}
+exports.handleLogout = handleLogout;
 function handleAuth() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
@@ -75,19 +89,3 @@ function handleAuth() {
     });
 }
 exports.handleAuth = handleAuth;
-function handleLogout() {
-    return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-        try {
-            if (req.session) {
-                console.log("SESSIONSSSS");
-                yield req.session.destroy();
-            }
-            next();
-        }
-        catch (error) {
-            console.error('Logout errors: ', error);
-            (0, api_utils_1.handleResponse)(res, 400, 'Logout user failed');
-        }
-    });
-}
-exports.handleLogout = handleLogout;

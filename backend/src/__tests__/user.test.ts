@@ -59,6 +59,18 @@ describe('POST /user/register', () => {
         const response = await request.post('/user/register').send(testUsers.TEST_USER_1);
         expect(response.status).toBe(200);
     });
+
+    it('Fails to register a user with duplicate email', async () => {
+        await request.post('/user/register').send(testUsers.TEST_USER_1);
+        const response = await request.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(500);
+    });
+
+    it('Fails to register a user with invalid email', async () => {
+        const invalidUser = { ...testUsers.TEST_USER_1, email: 'invalid-email' };
+        const response = await request.post('/user/register').send(invalidUser);
+        expect(response.status).toBe(400);
+    });
 });
 
 describe('POST /user/login', () => {
@@ -68,6 +80,17 @@ describe('POST /user/login', () => {
 
         const response2 = await request.post('/user/login').send(testUsers.TEST_USER_1);
         expect(response2.status).toBe(200);
+    });
+
+    it('Fails to login with incorrect password', async () => {
+        await request.post('/user/register').send(testUsers.TEST_USER_1);
+        const response = await request.post('/user/login').send({ ...testUsers.TEST_USER_1, password: 'wrongpass' });
+        expect(response.status).toBe(400);
+    });
+
+    it('Fails to login with non-existent user', async () => {
+        const response = await request.post('/user/login').send(testUsers.TEST_USER_2);
+        expect(response.status).toBe(400);
     });
 
     it('Adds a user and creates a session', async () => {
