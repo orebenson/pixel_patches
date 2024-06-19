@@ -61,7 +61,10 @@ function handleAuth() {
                 // check creation time on session
                 // if expired, revoke session
                 // if close to expiry, delete session and create new session, increasing number of refreshes by 1
-                // set req.body.username to req.session.username
+                // if session valid: set req.body.username to req.session.username
+            }
+            else {
+                req.body.username = null;
             }
             next();
         }
@@ -75,8 +78,10 @@ exports.handleAuth = handleAuth;
 function handleLogout() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
-            if (req.session)
-                req.session.destroy();
+            if (req.session) {
+                console.log("SESSIONSSSS");
+                yield req.session.destroy();
+            }
             next();
         }
         catch (error) {

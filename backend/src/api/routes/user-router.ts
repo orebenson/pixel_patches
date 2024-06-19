@@ -28,7 +28,7 @@ router.post('/login',
     (req, res) => handleResponse(res, 200, 'Login user success')
 );
 
-router.get('/logout',
+router.post('/logout',
     handleLogout(),
     (req, res) => handleResponse(res, 200, 'Logout user success')
 );

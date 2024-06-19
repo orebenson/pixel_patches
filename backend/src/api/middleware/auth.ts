@@ -38,6 +38,18 @@ export function handleLogin() {
     };
 }
 
+export function handleLogout() {
+    return async (req, res, next) => {
+        try {
+            if(req.session) await req.session.destroy();
+            next();
+        } catch (error) {
+            console.error('Logout errors: ', error);
+            handleResponse(res, 400, 'Logout user failed');
+        }
+    };
+}
+
 export function handleAuth() {
     return async (req, res, next) => {
         try {
@@ -58,15 +70,4 @@ export function handleAuth() {
     };
 }
 
-export function handleLogout() {
-    return async (req, res, next) => {
-        try {
-            if(req.session) await req.session.destroy();
-            next();
-        } catch (error) {
-            console.error('Logout errors: ', error);
-            handleResponse(res, 400, 'Logout user failed');
-        }
-    };
-}
 

@@ -1,5 +1,6 @@
 import app from '../app';
 import supertest from 'supertest';
+import session from 'supertest-session';
 import mongoose from 'mongoose';
 import { dropCollectionIfExists } from '../api/utils/db-utils';
 import { describe, expect, beforeEach, afterEach, it } from "@jest/globals";
@@ -67,6 +68,31 @@ describe('POST /user/login', () => {
 
         const response2 = await request.post('/user/login').send(testUsers.TEST_USER_1);
         expect(response2.status).toBe(200);
+    });
+
+    it('Adds a user and creates a session', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/login').send(testUsers.TEST_USER_1);
+        expect(response2.status).toBe(200);
+    });
+});
+
+describe('POST /user/logout', () => {
+    it('Adds a user, logs in, then logs out', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/login').send(testUsers.TEST_USER_1);
+        expect(response2.status).toBe(200);
+        
+        const response3 = await sessionRequest.post('/user/logout').send();
+        expect(response3.status).toBe(200);
     });
 });
 

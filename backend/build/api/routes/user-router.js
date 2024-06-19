@@ -40,5 +40,5 @@ router.post('/register', (0, auth_1.handleRegister)(), (0, validation_1.validate
 router.post('/login', (0, validation_1.validateFields)({
     email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 }), (0, auth_1.handleLogin)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Login user success'));
-router.get('/logout', (0, auth_1.handleLogout)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Logout user success'));
+router.post('/logout', (0, auth_1.handleLogout)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Logout user success'));
 exports.default = router;
