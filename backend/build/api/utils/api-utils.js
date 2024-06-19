@@ -14,17 +14,18 @@ function handleRequest(service) {
     return (req, res) => __awaiter(this, void 0, void 0, function* () {
         const params = Object.assign(Object.assign({}, req.body), req.params);
         const result = yield service(params);
-        handleResponse(res, result.status, result.message, result.data);
+        handleResponse(res, result.status, result.message, result.data, { username: req.body.username });
     });
 }
 exports.handleRequest = handleRequest;
 function handleResponse(res_1, status_1) {
-    return __awaiter(this, arguments, void 0, function* (res, status, message = '', data = {}) {
+    return __awaiter(this, arguments, void 0, function* (res, status, message = '', data = {}, headers = {}) {
         res.status(status);
         res.json({
             status,
             message,
-            data
+            data,
+            headers
         });
     });
 }

@@ -17,7 +17,8 @@ function addPatch() {
         const patchPixelHexes = params.patchPixelHexes;
         try {
             const patch = new patch_schema_1.Patch({
-                patchPixelHexes: patchPixelHexes
+                patchPixelHexes: patchPixelHexes,
+                username: username
             });
             yield patch.save();
             return { status: 200, message: 'success saving patch', data: {} };

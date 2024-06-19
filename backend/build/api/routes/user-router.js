@@ -29,8 +29,8 @@ const api_utils_1 = require("../utils/api-utils");
 const validation_1 = require("../middleware/validation");
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
-router.get('/', (req, res) => {
-    (0, api_utils_1.handleResponse)(res, 200, 'success user');
+router.get('/', (0, auth_1.handleAuth)(), (req, res) => {
+    (0, api_utils_1.handleResponse)(res, 200, 'success user', {}, { username: req.body.username });
     return;
 });
 router.post('/register', (0, auth_1.handleRegister)(), (0, validation_1.validateFields)({
@@ -39,6 +39,8 @@ router.post('/register', (0, auth_1.handleRegister)(), (0, validation_1.validate
 }), (0, api_utils_1.handleRequest)(UserService.addUser));
 router.post('/login', (0, validation_1.validateFields)({
     email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-}), (0, auth_1.handleLogin)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Login user success'));
+}), (0, auth_1.handleLogin)(), (req, res) => {
+    (0, api_utils_1.handleResponse)(res, 200, 'Login user success', {}, { username: req.body.username });
+});
 router.post('/logout', (0, auth_1.handleLogout)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Logout user success'));
 exports.default = router;

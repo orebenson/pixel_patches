@@ -44,6 +44,7 @@ function handleLogin() {
             req.session.num_refresh = 0;
             req.session.creation_time = Date.now();
             yield req.session.save();
+            req.body.username = req.session.username;
             next();
         }
         catch (error) {
@@ -56,8 +57,10 @@ exports.handleLogin = handleLogin;
 function handleLogout() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
-            if (req.session)
+            if (req.session) {
                 yield req.session.destroy();
+                req.body.username = null;
+            }
             next();
         }
         catch (error) {
@@ -70,21 +73,37 @@ exports.handleLogout = handleLogout;
 function handleAuth() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
-            if (req.session) {
-                // if (req.session.num_refresh > 20) req.session.destroy();
-                // check creation time on session
-                // if expired, revoke session
-                // if close to expiry, delete session and create new session, increasing number of refreshes by 1
-                // if session valid: set req.body.username to req.session.username
-            }
-            else {
+            if (!req.session) {
                 req.body.username = null;
+                return next();
             }
+            if (req.session.num_refresh > 20) {
+                yield req.session.destroy();
+                req.body.username = null;
+                return next();
+            }
+            if (Date.now() > (req.session.creation_time + (1000 * 60 * 60 * 12))) {
+                yield req.session.destroy();
+                req.body.username = null;
+                return next();
+            }
+            // within 10 mins of expiry
+            if (((req.session.creation_time + (1000 * 60 * 60 * 12)) - Date.now()) < (1000 * 60 * 10)) {
+                const username = req.session.username;
+                const num_refresh = req.session.num_refresh;
+                yield req.session.destroy();
+                yield req.session.regenerate();
+                req.session.username = username;
+                req.session.num_refresh = num_refresh + 1;
+                req.session.creation_time = Date.now();
+                yield req.session.save();
+            }
+            req.body.username = req.session.username;
             next();
         }
         catch (error) {
             console.error('Auth errors: ', error);
-            (0, api_utils_1.handleResponse)(res, 400, 'Auth user failed');
+            (0, api_utils_1.handleResponse)(res, 400, 'Auth failed');
         }
     });
 }

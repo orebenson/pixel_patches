@@ -7,9 +7,9 @@
     "build": "tsc --build",
     "watch": "tsc --build --watch",
     "clean": "tsc --build --clean",
-    "start": "npm run build && node ./build/server.js",
+    "start": "set MODE=prod && npm run build && node ./build/server.js",
     "dev": "ts-node-dev --transpile-only --inspect -- ./src/server.ts",
-    "test": "npm run build && jest"
+    "test": "set MODE=test && npm run build && jest"
   },
   "keywords": [],
   "author": "",
@@ -39,6 +39,7 @@
     "@types/node": "^20.14.2",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/parser": "^7.13.0",
+    "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "supertest": "^7.0.0",
     "supertest-session": "^5.0.1",

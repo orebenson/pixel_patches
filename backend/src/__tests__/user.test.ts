@@ -52,12 +52,30 @@ describe('GET /user', () => {
         const response = await request.get('/user');
         expect(response.status).toBe(200);
     });
+
+    it('Creates an account, logs in, then gets the logged in username', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/login').send(testUsers.TEST_USER_1);
+        expect(response2.status).toBe(200);
+        expect(response2.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+
+        console.log(sessionRequest.cookies);
+
+        const response3 = await sessionRequest.get('/user');
+        expect(response3.status).toBe(200);
+        expect(response3.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+    });
 });
 
 describe('POST /user/register', () => {
     it('Adds new user', async () => {
         const response = await request.post('/user/register').send(testUsers.TEST_USER_1);
         expect(response.status).toBe(200);
+        expect(response.body.headers.username).toBe(testUsers.TEST_USER_1.username);
     });
 
     it('Fails to register a user with duplicate email', async () => {

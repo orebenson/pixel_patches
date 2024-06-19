@@ -12,6 +12,8 @@ const DB_URL = process.env.DB_URL;
 const SESSION_DB_URL = process.env.SESSION_DB_URL;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const SESSION_SECRET = process.env.SESSION_SECRET;
+const MODE = process.env.MODE;
+console.log("MODE: ", MODE)
 
 // db connection
 const db_url = DB_URL;
@@ -42,9 +44,9 @@ app.use(session({
     secret: SESSION_SECRET,
     name: 'xr',
     cookie: {
+        secure: MODE === "prod" ? true : false,
         httpOnly: true,
-        secure: true,
-        maxAge: 1000 * 60 * 60 * 8, //milliseconds - 8 hours
+        maxAge: 1000 * 60 * 60 * 12, // milliseconds - 12 hours
     },
     resave: false,
     saveUninitialized: true,

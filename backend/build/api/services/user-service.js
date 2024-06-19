@@ -34,7 +34,7 @@ function addUser() {
 exports.addUser = addUser;
 function getUserByEmail(params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { email } = params;
+        const email = params.email;
         try {
             const user = yield user_schema_1.User.findOne({ email: email });
             if (!user)
@@ -50,7 +50,7 @@ function getUserByEmail(params) {
 exports.getUserByEmail = getUserByEmail;
 function getUserById() {
     return __awaiter(this, arguments, void 0, function* (params = { uid: '' }) {
-        const { uid } = params;
+        const uid = params.uid;
         try {
             const user = yield user_schema_1.User.findOne({ _id: uid });
             if (!user)
@@ -66,7 +66,7 @@ function getUserById() {
 exports.getUserById = getUserById;
 function getUserByUsername() {
     return __awaiter(this, arguments, void 0, function* (params = { username: '' }) {
-        const { username } = params;
+        const username = params.username;
         try {
             const user = yield user_schema_1.User.findOne({ username: username });
             if (!user)

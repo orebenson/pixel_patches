@@ -5,7 +5,8 @@ export async function addPatch(params = { username: null, patchPixelHexes: [] })
     const patchPixelHexes = params.patchPixelHexes;
     try {
         const patch = new Patch({
-            patchPixelHexes: patchPixelHexes
+            patchPixelHexes: patchPixelHexes,
+            username: username
         });
         await patch.save();
         return { status: 200, message: 'success saving patch', data: {} };

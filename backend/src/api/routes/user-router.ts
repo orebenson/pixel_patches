@@ -6,10 +6,13 @@ import { handleRegister, handleLogout, handleLogin, handleAuth } from "../middle
 
 const router = Router();
 
-router.get('/', (req, res) => {
-    handleResponse(res, 200, 'success user');
-    return;
-});
+router.get('/',
+    handleAuth(),
+    (req, res) => {
+        handleResponse(res, 200, 'success user', {}, { username: req.body.username });
+        return;
+    }
+);
 
 router.post('/register',
     handleRegister(),
@@ -25,7 +28,9 @@ router.post('/login',
         email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
     }),
     handleLogin(),
-    (req, res) => handleResponse(res, 200, 'Login user success')
+    (req, res) => {
+        handleResponse(res, 200, 'Login user success', {}, { username: req.body.username })
+    }
 );
 
 router.post('/logout',

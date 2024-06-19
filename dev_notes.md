@@ -21,7 +21,9 @@ npm test -- -t 'Adds new user and tries to login'
     - frontend: add logout button - if backend returns user not logged in, redirect to login page
 
 + session management per request
-    - backend: session handler, session validation (middleware for all requests) -- /patch/**
+    - backend: session handler, session validation (middleware for all requests) -- /patch/** [done]
+    - backend: change all tests to use sessions
+    - backend: add extensive tests for the session management
     - frontend: add relevant logic for if a user is logged in (displaying name in header if there is a username field in response)
 
 + forgot password feature

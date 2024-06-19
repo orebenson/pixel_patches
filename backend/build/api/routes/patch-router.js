@@ -27,18 +27,19 @@ const express_1 = require("express");
 const PatchService = __importStar(require("../services/patch-service"));
 const api_utils_1 = require("../utils/api-utils");
 const validation_1 = require("../middleware/validation");
+const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
-router.get('/', (req, res) => {
-    (0, api_utils_1.handleResponse)(res, 200, 'success patch');
+router.get('/', (0, auth_1.handleAuth)(), (req, res) => {
+    (0, api_utils_1.handleResponse)(res, 200, 'success patch', {}, { username: req.body.username });
     return;
 });
-router.post('/add', (0, validation_1.validateFields)({
+router.post('/add', (0, auth_1.handleAuth)(), (0, validation_1.validateFields)({
     patchPixelHexes: value => Array.isArray(value) && value.length === 64
 }), (0, api_utils_1.handleRequest)(PatchService.addPatch));
-router.get('/list/:start_index/:end_index', (0, validation_1.validateFields)({
+router.get('/list/:start_index/:end_index', (0, auth_1.handleAuth)(), (0, validation_1.validateFields)({
     start_index: value => Number.isInteger(parseInt(value, 10)) && value >= 0,
     end_index: value => Number.isInteger(parseInt(value, 10)) && value >= 0,
 }), (0, api_utils_1.handleRequest)(PatchService.getPatchesByRange));
-router.get('/list/count', (0, api_utils_1.handleRequest)(PatchService.getPatchCount));
-router.get('/list', (0, api_utils_1.handleRequest)(PatchService.getAllPatches));
+router.get('/list/count', (0, auth_1.handleAuth)(), (0, api_utils_1.handleRequest)(PatchService.getPatchCount));
+router.get('/list', (0, auth_1.handleAuth)(), (0, api_utils_1.handleRequest)(PatchService.getAllPatches));
 exports.default = router;

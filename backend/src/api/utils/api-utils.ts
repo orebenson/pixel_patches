@@ -5,15 +5,16 @@ export function handleRequest(service) {
             ...req.params
         };
         const result = await service(params);
-        handleResponse(res, result.status, result.message, result.data);
+        handleResponse(res, result.status, result.message, result.data, {username: req.body.username});
     }
 }
 
-export async function handleResponse(res, status, message = '', data = {}) {
+export async function handleResponse(res, status, message = '', data = {}, headers = {}) {
     res.status(status);
     res.json({
         status,
         message,
-        data
+        data,
+        headers
     });
 };

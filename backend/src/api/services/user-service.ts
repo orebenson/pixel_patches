@@ -19,7 +19,7 @@ export async function addUser(params = { email: '', username: '', password: '' }
 }
 
 export async function getUserByEmail(params: { email: string }) {
-    const { email } = params;
+    const email = params.email;
     try {
         const user = await User.findOne({ email: email });
         if(!user) throw new Error('User does not exist');
@@ -32,7 +32,7 @@ export async function getUserByEmail(params: { email: string }) {
 }
 
 export async function getUserById(params = { uid: '' }) {
-    const { uid } = params;
+    const uid = params.uid;
     try {
         const user = await User.findOne({ _id: uid });
         if(!user) throw new Error('User does not exist');
@@ -45,7 +45,7 @@ export async function getUserById(params = { uid: '' }) {
 }
 
 export async function getUserByUsername(params = { username: '' }) {
-    const { username } = params;
+    const username = params.username;
     try {
         const user = await User.findOne({ username: username });
         if(!user) throw new Error('User does not exist');

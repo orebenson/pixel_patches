@@ -19,17 +19,18 @@ export function handleRegister() {
 export function handleLogin() {
     return async (req, res, next) => {
         try {
-            const user = await getUserByEmail({email: req.body.email});
-            if(!user) throw new Error("User does not exist");
+            const user = await getUserByEmail({ email: req.body.email });
+            if (!user) throw new Error("User does not exist");
 
             const result = await bcrypt.compare(req.body.password, user.password);
-            if(!result) throw new Error("Password does not match");
+            if (!result) throw new Error("Password does not match");
 
             req.session.username = user.username;
             req.session.num_refresh = 0;
             req.session.creation_time = Date.now();
-            await req.session.save();
 
+            await req.session.save();
+            req.body.username = req.session.username;
             next();
         } catch (error) {
             console.error('Login errors: ', error);
@@ -41,7 +42,10 @@ export function handleLogin() {
 export function handleLogout() {
     return async (req, res, next) => {
         try {
-            if(req.session) await req.session.destroy();
+            if (req.session) {
+                await req.session.destroy();
+                req.body.username = null;
+            }
             next();
         } catch (error) {
             console.error('Logout errors: ', error);
@@ -53,19 +57,40 @@ export function handleLogout() {
 export function handleAuth() {
     return async (req, res, next) => {
         try {
-            if(req.session) {
-                // if (req.session.num_refresh > 20) req.session.destroy();
-                // check creation time on session
-                    // if expired, revoke session
-                    // if close to expiry, delete session and create new session, increasing number of refreshes by 1
-                // if session valid: set req.body.username to req.session.username
-            } else {
+            if (!req.session) {
                 req.body.username = null;
+                return next();
             }
+            
+            if (req.session.num_refresh > 20) {
+                await req.session.destroy();
+                req.body.username = null;
+                return next();
+            }
+            
+            if (Date.now() > (req.session.creation_time + (1000 * 60 * 60 * 12))) {
+                await req.session.destroy();
+                req.body.username = null;
+                return next();
+            }
+            
+            // within 10 mins of expiry
+            if (((req.session.creation_time + (1000 * 60 * 60 * 12)) - Date.now()) < (1000 * 60 * 10)) {
+                const username = req.session.username;
+                const num_refresh = req.session.num_refresh;
+                await req.session.destroy();
+                await req.session.regenerate();
+                req.session.username = username;
+                req.session.num_refresh = num_refresh + 1;
+                req.session.creation_time = Date.now();
+                await req.session.save();
+            }
+            
+            req.body.username = req.session.username;
             next();
         } catch (error) {
             console.error('Auth errors: ', error);
-            handleResponse(res, 400, 'Auth user failed');
+            handleResponse(res, 400, 'Auth failed');
         }
     };
 }
