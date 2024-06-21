@@ -10,6 +10,7 @@ npm test -- -t 'Adds new user and tries to login'
 + register feature
     - backend: add /user/register and handler [done]
     - frontend: add register page - { email: email format less than 64 digits, username: string less than 64 digits, password: ''}
+    - backend: add sending verification email
 
 + login feature
     - backend: add /login and login handler[done]
@@ -28,7 +29,7 @@ npm test -- -t 'Adds new user and tries to login'
 
 + forgot password feature
     - backend: add /user/resetpassword (send email with reset link)
-    - frontend: add reset password pages
+    - frontend: add reset password form
 
 + usability
     - frontend: handle navbar text overlapping on small screens
@@ -44,6 +45,7 @@ npm test -- -t 'Adds new user and tries to login'
 - add session checks per request 
 - add logout
 - add forgot password
+- add api documentation
 
 ### v1.3 - api security
 - secure API to industry standard:
@@ -58,16 +60,13 @@ npm test -- -t 'Adds new user and tries to login'
     - Prevent open redirects
     - Only allow certain number of login requests from a specific source ip
 
-### v2.0 - deployment
+### v2.0 - deployment (optional)
 database - firestore
 backend - firebase functions
     - auth - firebase auth
     - sessions - firestore
 frontend - firebase hosting
 
-### v? - minimum for release to public and advertisement
-- get someone on fivver or similar to do a security check
-- add nsfw filtering - upload queue to be accepted by moderator?
 
 =============================================================================
 
