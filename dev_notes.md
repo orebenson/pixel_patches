@@ -26,14 +26,10 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 ### v1.0 - MVP
 ### v1.1 - validation and code quality
 ### v1.2 - register, signin, sessions
-- add user register
-- add login
-- add session checks per request 
-- add logout
 - add forgot password
-- add api documentation
 
 ### v1.3 - api security
+- add api documentation
 - secure API to industry standard:
 - create separate module for checking user permissions (see monkeytype)
 - create security middleware module to handle exposed api concerns
