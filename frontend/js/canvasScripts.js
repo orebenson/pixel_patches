@@ -1,6 +1,6 @@
 import * as PatchService from './api/patchService.js';
 import { rgbToHex } from './utils/conversion-utils.js';
-import { loadNavbar } from './utils/navbar.js';
+import { loadNavbar } from './utils/navbar-utils.js';
 
 let picked_colour = "";
 const canvas_background_colour = window.getComputedStyle(document.querySelector('.canvas-tile')).getPropertyValue("background-color");

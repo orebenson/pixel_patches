@@ -1,5 +1,5 @@
 import * as LoginService from '../js/api/loginService.js';
-import { loadNavbar } from './utils/navbar.js';
+import { loadNavbar } from './utils/navbar-utils.js';
 
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -7,7 +7,7 @@ function validateEmail(email) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-
+    
     // Registration form validation
     const registerForm = document.querySelector('#register-container form');
     const registerInputs = {
