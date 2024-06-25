@@ -8,6 +8,13 @@ export function handleRegister() {
             const salt_rounds = 10;
             const salt = await bcrypt.genSalt(salt_rounds);
             req.body.password = await bcrypt.hash(req.body.password, salt);
+
+            req.session.username = req.body.username;
+            req.session.num_refresh = 0;
+            req.session.creation_time = Date.now();
+
+            await req.session.save();
+            req.body.username = req.session.username;
             next();
         } catch (error) {
             console.error('Password errors: ', error);
@@ -28,7 +35,7 @@ export function handleLogin() {
             req.session.username = user.username;
             req.session.num_refresh = 0;
             req.session.creation_time = Date.now();
-
+            
             await req.session.save();
             req.body.username = req.session.username;
             next();
@@ -57,23 +64,24 @@ export function handleLogout() {
 export function handleAuth() {
     return async (req, res, next) => {
         try {
+            
             if (!req.session) {
                 req.body.username = null;
                 return next();
             }
-            
+
             if (req.session.num_refresh > 20) {
                 await req.session.destroy();
                 req.body.username = null;
                 return next();
             }
-            
+
             if (Date.now() > (req.session.creation_time + (1000 * 60 * 60 * 12))) {
                 await req.session.destroy();
                 req.body.username = null;
                 return next();
             }
-            
+
             // within 10 mins of expiry
             if (((req.session.creation_time + (1000 * 60 * 60 * 12)) - Date.now()) < (1000 * 60 * 10)) {
                 const username = req.session.username;
@@ -85,7 +93,9 @@ export function handleAuth() {
                 req.session.creation_time = Date.now();
                 await req.session.save();
             }
-            
+
+            console.log("username: ", req.session.username)
+
             req.body.username = req.session.username;
             next();
         } catch (error) {

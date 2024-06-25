@@ -1,4 +1,5 @@
 import * as PatchService from './api/patchService.js';
+import { loadNavbar } from './utils/navbar.js';
 
 const PAGE_SIZE = 16;
 const PATCH_PIXEL_COUNT = 64;
@@ -88,6 +89,9 @@ function initPage() {
 
 document.getElementById('next-page-button').addEventListener('click', loadPage(current_page_number + 1));
 document.getElementById('prev-page-button').addEventListener('click', loadPage(current_page_number - 1));
-window.addEventListener('DOMContentLoaded', initPage)
+window.addEventListener('DOMContentLoaded', () => {
+    initPage();
+    loadNavbar();
+})
 
 

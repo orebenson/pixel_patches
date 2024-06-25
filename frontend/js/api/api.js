@@ -5,6 +5,11 @@ function debugLog(method, path, json) {
     if (method === 'GET') console.log(`API DEBUG ${JSON.stringify(json.data)}`);
 }
 
+async function setUsername(headers) {
+    if(!headers.username) return;
+    await localStorage.setItem("username", headers.username);
+}
+
 async function handleRequest(method, path, data = {}) {
     try {
         const response = await fetch(`${BACKEND_URL}${path}`, {
@@ -19,6 +24,7 @@ async function handleRequest(method, path, data = {}) {
         if (!response.ok) throw new Error(json.message || 'Unknown error');
         
         // debugLog(method, path, json);
+        setUsername(json.headers);
 
         return method === 'GET' ? json.data : 'success';
     } catch (error) {

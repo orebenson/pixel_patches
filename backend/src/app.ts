@@ -23,6 +23,7 @@ try {
         console.log(`Database connected on ${db_url}`);
         dropCollectionIfExists('users', mongoose.connection);
         dropCollectionIfExists('patches', mongoose.connection);
+        dropCollectionIfExists('sessions', mongoose.connection);
     });
 } catch (error) {
     console.error(`Database connection error: ${error}`);
@@ -34,12 +35,12 @@ try {
 const app = express();
 
 // middleware
-app.use(helmet());
+app.use(express.json());
 app.use(cors({
     origin: FRONTEND_URL,
     optionsSuccessStatus: 200
 }));
-app.use(express.json());
+app.use(helmet());
 app.use(session({
     secret: SESSION_SECRET,
     name: 'xr',

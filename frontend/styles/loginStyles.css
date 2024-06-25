@@ -1,0 +1,21 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#account-options-container {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+}
+
+@media only screen and (max-width: 600px) {
+    #account-options-container {
+        flex-direction: column;
+    }
+}
+
+#register-container, #login-container {
+    min-width: 10rem;
+}

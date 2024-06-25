@@ -18,6 +18,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    min-width: 300px;
 }
 
 .main-container {
@@ -49,6 +50,7 @@ body {
 
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .nav {
@@ -66,6 +68,14 @@ body {
     align-items: center;
 
     background-color: var(--highlight-color);
+}
+
+@media only screen and (max-width: 600px) {
+    .nav > :first-child {
+        display: none;
+        /* font-size: 1.5rem;
+        width: 7rem; */
+    }
 }
 
 .nav:after {
@@ -100,6 +110,19 @@ body {
     
 } */
 
+input {
+    padding: 0.25rem;
+    border: 0.15rem solid var(--text-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input:focus {
+    border-color: var(--highlight-color);
+    outline: none;
+}
+
 button {
     padding: 0.25rem;
     border: 0.15rem solid var(--text-color);
@@ -117,4 +140,14 @@ button:hover {
 button:active {
     background-color: var(--highlight-color);
     color: var(--text-color);
+}
+
+button:disabled {
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    border: 0.15rem solid var(--highlight-color);
+}
+
+button:disabled:hover {
+    cursor: default;
 }

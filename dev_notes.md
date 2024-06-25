@@ -7,32 +7,19 @@ npm test -- -t 'Adds new user and tries to login'
 =============================================================================
 
 ## features TODO for Current Version (v1.2) (in order of priority)
-+ register feature
-    - backend: add /user/register and handler [done]
-    - frontend: add register page - { email: email format less than 64 digits, username: string less than 64 digits, password: ''}
-    - backend: add sending verification email
-
-+ login feature
-    - backend: add /login and login handler[done]
-    - frontend: add login page - on login, server can return the users username, to be stored in localstorage, loaded, and dispayed on each page load
-
-+ logout feature
-    - backend: add /logout and logout handler [done]
-    - backend: add logout tests with sessions [done]
-    - frontend: add logout button - if backend returns user not logged in, redirect to login page
-
 + session management per request
-    - backend: session handler, session validation (middleware for all requests) -- /patch/** [done]
-    - backend: change all tests to use sessions
-    - backend: add extensive tests for the session management
-    - frontend: add relevant logic for if a user is logged in (displaying name in header if there is a username field in response)
+    - backend: FIX ERROR OF USERNAME NOT BEING ACCESSIBLE BETWEEN REQUESTS!!!
 
 + forgot password feature
     - backend: add /user/resetpassword (send email with reset link)
     - frontend: add reset password form
 
-+ usability
++ extra
+    - backend: add more tests
+    - backend: add sending verification email
+    - backend: change all tests to use sessions
     - frontend: handle navbar text overlapping on small screens
+    - frontend: add caching to prevent constant reloads
 
 =============================================================================
 - see 'Rooms' game on iphone for references
