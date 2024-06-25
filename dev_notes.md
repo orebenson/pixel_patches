@@ -7,9 +7,14 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 =============================================================================
 
 ## features TODO for Current Version (v1.2) (in order of priority)
++ add email verification
+    - backend: on user registration: send verification email > set verified to false > set verified to true once email link clicked
+    - frontend: on click of verification email: send to backend > return success/error message
+
 + forgot password feature
-    - backend: add /user/resetpassword (send email with reset link)
-    - frontend: add reset password form
+    - backend: add /user/resetpassword > if email exists, send link to email to reset
+    - frontend: add reset password request form page > input email > post email to /user/resetpassword > return success/error and redirect
+    - frontend: add reset password form page > input new password twice > post to backend > return success/error and redirect
 
 + extra
     - backend: add more tests
