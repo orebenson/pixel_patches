@@ -1,8 +1,8 @@
 
 testing notes?:
 
-npm test -- -t '/POST /user'
-npm test -- -t 'Adds new user and tries to login'
+npm test -- -t "/POST /user"
+npm test -- -t "POST /patch/add Adds new user and tries to login"
 
 =============================================================================
 

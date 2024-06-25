@@ -14,6 +14,14 @@ router.get('/',
     }
 );
 
+router.post('/',
+    handleAuth(),
+    (req, res) => {
+        handleResponse(res, 200, 'success user', {}, { username: req.body.username });
+        return;
+    }
+);
+
 router.post('/register',
     handleRegister(),
     validateFields({

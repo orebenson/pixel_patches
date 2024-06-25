@@ -4,6 +4,25 @@ import mongoose from 'mongoose';
 import { dropCollectionIfExists } from '../api/utils/db-utils';
 import { Patch } from '../api/schemas/patch-schema';
 import { describe, expect, beforeEach, afterEach, it } from "@jest/globals";
+import session from 'supertest-session';
+
+const testUsers = {
+    TEST_USER_1: {
+        email: 'test1@test.com',
+        username: 'test1',
+        password: 'test1pass',
+    },
+    TEST_USER_2: {
+        email: 'test2@test.com',
+        username: 'test2',
+        password: 'test2pass',
+    },
+    TEST_USER_3: {
+        email: 'test3@test.com',
+        username: 'test3',
+        password: 'test3pass',
+    },
+};
 
 const testHexArrays = {
     HEX_ARRAY_1: Array(64).fill('#000000'),
@@ -21,7 +40,7 @@ function generateHexArray(array_id, index) {
     };
 
     const pattern = arrayPatterns[array_id];
-    const result : string[] = [];
+    const result: string[] = [];
     const repeatCount = 16;
 
     if (pattern) {
@@ -107,6 +126,24 @@ describe('POST /patch/add', () => {
         const response = await request.post('/patch/add').send({ patchPixelHexes: invalidHexArray });
         expect(response.status).toBe(400);
     });
+
+    it('Creates an account, logs in, then tests posting new patch with username', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/login').send(testUsers.TEST_USER_1);
+        expect(response2.status).toBe(200);
+        expect(response2.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+
+        console.log(sessionRequest.cookies);
+
+        const response3 = await sessionRequest.post('/patch/add').send({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 });
+        expect(response3.status).toBe(200);
+        expect(response3.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+    });
+
 });
 
 

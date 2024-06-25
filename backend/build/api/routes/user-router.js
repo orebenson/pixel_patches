@@ -33,6 +33,10 @@ router.get('/', (0, auth_1.handleAuth)(), (req, res) => {
     (0, api_utils_1.handleResponse)(res, 200, 'success user', {}, { username: req.body.username });
     return;
 });
+router.post('/', (0, auth_1.handleAuth)(), (req, res) => {
+    (0, api_utils_1.handleResponse)(res, 200, 'success user', {}, { username: req.body.username });
+    return;
+});
 router.post('/register', (0, auth_1.handleRegister)(), (0, validation_1.validateFields)({
     email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     username: value => value.length < 64 && value.length > 2

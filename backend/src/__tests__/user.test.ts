@@ -137,3 +137,21 @@ describe('POST /user/logout', () => {
     });
 });
 
+describe('POST /user', () => {
+    it('Creates an account, logs in, then tests posting to user endpoint', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/login').send(testUsers.TEST_USER_1);
+        expect(response2.status).toBe(200);
+        expect(response2.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+
+        console.log(sessionRequest.cookies);
+
+        const response3 = await sessionRequest.post('/user');
+        expect(response3.status).toBe(200);
+        expect(response3.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+    });
+});

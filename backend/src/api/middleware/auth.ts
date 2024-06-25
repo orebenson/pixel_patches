@@ -93,9 +93,7 @@ export function handleAuth() {
                 req.session.creation_time = Date.now();
                 await req.session.save();
             }
-
-            console.log("username: ", req.session.username)
-
+            // console.log("auth session: ", req.session)
             req.body.username = req.session.username;
             next();
         } catch (error) {
