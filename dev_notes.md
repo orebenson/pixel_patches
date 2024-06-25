@@ -7,9 +7,6 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 =============================================================================
 
 ## features TODO for Current Version (v1.2) (in order of priority)
-+ session management per request
-    - backend: FIX ERROR OF USERNAME NOT BEING ACCESSIBLE BETWEEN REQUESTS!!!
-
 + forgot password feature
     - backend: add /user/resetpassword (send email with reset link)
     - frontend: add reset password form
@@ -17,9 +14,8 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 + extra
     - backend: add more tests
     - backend: add sending verification email
-    - backend: change all tests to use sessions
-    - frontend: handle navbar text overlapping on small screens
-    - frontend: add caching to prevent constant reloads
+    - backend: change tests to use sessions
+    - frontend: display username under each patch
 
 =============================================================================
 - see 'Rooms' game on iphone for references

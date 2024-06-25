@@ -33,7 +33,7 @@ exports.addPatch = addPatch;
 function getAllPatches() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const patches = yield patch_schema_1.Patch.find({}).select('patchPixelHexes -_id');
+            const patches = yield patch_schema_1.Patch.find({}).select('patchPixelHexes username -_id');
             return { status: 200, message: 'success getting patches', data: patches };
             ;
         }
@@ -66,7 +66,7 @@ function getPatchesByRange() {
                 .sort({ date: -1 })
                 .skip(start_index)
                 .limit(end_index - start_index)
-                .select('patchPixelHexes -_id');
+                .select('patchPixelHexes username -_id');
             return { status: 200, message: 'success getting patches', data: patches };
         }
         catch (error) {

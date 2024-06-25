@@ -23,7 +23,6 @@ try {
         console.log(`Database connected on ${db_url}`);
         dropCollectionIfExists('users', mongoose.connection);
         dropCollectionIfExists('patches', mongoose.connection);
-        dropCollectionIfExists('sessions', mongoose.connection);
     });
 } catch (error) {
     console.error(`Database connection error: ${error}`);
@@ -38,19 +37,21 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     origin: FRONTEND_URL,
+    credentials: true,
     optionsSuccessStatus: 200
 }));
 app.use(helmet());
+app.set('trust proxy', 1);
 app.use(session({
     secret: SESSION_SECRET,
     name: 'xr',
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-        secure: MODE === "prod" ? true : false,
         httpOnly: true,
+        secure: MODE === "prod" ? true : false,
         maxAge: 1000 * 60 * 60 * 12, // milliseconds - 12 hours
     },
-    resave: false,
-    saveUninitialized: true,
     store: MongoStore.create({
         mongoUrl: SESSION_DB_URL,
         collectionName: 'sessions',

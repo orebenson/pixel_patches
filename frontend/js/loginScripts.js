@@ -6,6 +6,12 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+function resetFormValidation(form, inputs) {
+    Object.values(inputs).forEach(input => {
+        input.classList.remove('invalid');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // Registration form validation
@@ -25,6 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const isEmailMatch = registerInputs.email.value === registerInputs.verifyEmail.value;
         const isValidPassword = registerInputs.password.value.trim().length >= 4;
         const isPasswordMatch = registerInputs.password.value === registerInputs.verifyPassword.value;
+
+        registerInputs.username.classList.toggle('invalid', !isValidUsername);
+        registerInputs.email.classList.toggle('invalid', !isValidEmail);
+        registerInputs.verifyEmail.classList.toggle('invalid', !isEmailMatch);
+        registerInputs.password.classList.toggle('invalid', !isValidPassword);
+        registerInputs.verifyPassword.classList.toggle('invalid', !isPasswordMatch);
 
         registerButton.disabled = !(isValidUsername && isValidEmail && isEmailMatch && isValidPassword && isPasswordMatch);
     }
@@ -52,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const isValidEmail = validateEmail(loginInputs.email.value);
         const isValidPassword = loginInputs.password.value.trim().length > 0;
 
+        loginInputs.email.classList.toggle('invalid', !isValidEmail);
+        loginInputs.password.classList.toggle('invalid', !isValidPassword);
+
+
         loginButton.disabled = !(isValidEmail && isValidPassword);
     }
 
@@ -66,5 +82,14 @@ document.addEventListener('DOMContentLoaded', function() {
         loadNavbar();
         window.location.href = '/';
     });
+
+    // document.addEventListener('click', function(event) {
+    //     if (!registerForm.contains(event.target)) {
+    //         resetFormValidation(registerForm, registerInputs);
+    //     }
+    //     if (!loginForm.contains(event.target)) {
+    //         resetFormValidation(loginForm, loginInputs);
+    //     }
+    // });
 
 });

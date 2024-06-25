@@ -4,6 +4,7 @@
     --highlight-color: hsl(260, 10%, 75%);
     --accent-color: hsl(54, 77%, 83%);
     --nav-height: 3rem;
+    --invalid-color: #ebb0b0;
 }
 
 * {
@@ -121,6 +122,11 @@ input {
 input:focus {
     border-color: var(--highlight-color);
     outline: none;
+}
+
+input.invalid {
+    background-color: var(--invalid-color);
+    border: 0.15rem solid var(--invalid-color);
 }
 
 button {

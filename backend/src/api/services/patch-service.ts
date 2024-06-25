@@ -18,7 +18,7 @@ export async function addPatch(params = { username: null, patchPixelHexes: [] })
 
 export async function getAllPatches() {
     try {
-        const patches = await Patch.find({}).select('patchPixelHexes -_id');
+        const patches = await Patch.find({}).select('patchPixelHexes username -_id');
         return { status: 200, message: 'success getting patches', data: patches };;
     } catch (error) {
         console.error(`patch error ${error}`)
@@ -45,7 +45,7 @@ export async function getPatchesByRange(params = { start_index: 0, end_index: 0 
             .sort({ date: -1 })
             .skip(start_index)
             .limit(end_index - start_index)
-            .select('patchPixelHexes -_id');
+            .select('patchPixelHexes username -_id');
         return { status: 200, message: 'success getting patches', data: patches };
     } catch (error) {
         console.error(`patch error ${error}`);

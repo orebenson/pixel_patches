@@ -17,7 +17,8 @@ async function handleRequest(method, path, data = {}) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: method === 'GET' ? null : JSON.stringify({ ...data })
+            body: method === 'GET' ? null : JSON.stringify({ ...data }),
+            credentials: 'include'
         });
 
         const json = await response.json();
