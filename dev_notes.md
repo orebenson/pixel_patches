@@ -17,7 +17,7 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
     - frontend: add reset password form page > input new password twice > post to backend > return success/error and redirect
 
 + extra
-    - backend: add more tests
+    - backend: add more tests involving sessions
     - backend: add sending verification email
     - backend: change tests to use sessions
     - frontend: display username under each patch
