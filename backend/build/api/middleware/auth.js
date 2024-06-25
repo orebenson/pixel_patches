@@ -19,14 +19,18 @@ const user_service_1 = require("../services/user-service");
 function handleRegister() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
+            if (req.session.username)
+                throw new Error("User already logged in");
             const salt_rounds = 10;
             const salt = yield bcrypt_1.default.genSalt(salt_rounds);
             req.body.password = yield bcrypt_1.default.hash(req.body.password, salt);
-            req.session.username = req.body.username;
-            req.session.num_refresh = 0;
-            req.session.creation_time = Date.now();
-            yield req.session.save();
-            req.body.username = req.session.username;
+            // req.session.username = req.body.username;
+            // req.session.num_refresh = 0;
+            // req.session.creation_time = Date.now();
+            // await req.session.save();
+            // req.body.username = req.session.username;
+            req.params.username = req.body.username;
+            req.body.username = '';
             next();
         }
         catch (error) {
@@ -45,6 +49,8 @@ function handleLogin() {
             const result = yield bcrypt_1.default.compare(req.body.password, user.password);
             if (!result)
                 throw new Error("Password does not match");
+            if (req.session.username)
+                throw new Error("User already logged in");
             req.session.username = user.username;
             req.session.num_refresh = 0;
             req.session.creation_time = Date.now();
@@ -104,8 +110,6 @@ function handleAuth() {
                 yield req.session.save();
             }
             req.body.username = req.session.username;
-            console.log("auth session: ", req.session.id);
-            console.log("auth session: ", req.session);
             next();
         }
         catch (error) {

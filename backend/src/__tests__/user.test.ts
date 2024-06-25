@@ -75,7 +75,6 @@ describe('POST /user/register', () => {
     it('Adds new user', async () => {
         const response = await request.post('/user/register').send(testUsers.TEST_USER_1);
         expect(response.status).toBe(200);
-        expect(response.body.headers.username).toBe(testUsers.TEST_USER_1.username);
     });
 
     it('Fails to register a user with duplicate email', async () => {

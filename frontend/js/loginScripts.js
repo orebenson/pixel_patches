@@ -12,9 +12,7 @@ function resetFormValidation(form, inputs) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Registration form validation
+function initRegisterForm() {
     const registerForm = document.querySelector('#register-container form');
     const registerInputs = {
         username: registerForm.querySelector('.usernameInput'),
@@ -48,11 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const result = await LoginService.sendRegister(registerInputs.email.value, registerInputs.username.value, registerInputs.password.value);
-        if(result === 'error') return;
-        window.location.href = '/';
+        if (result === 'error') return;
+        window.location.href = '/login';
     });
+}
 
-    // Login form validation
+
+function initLoginForm() {
     const loginForm = document.querySelector('#login-container form');
     const loginInputs = {
         email: loginForm.querySelector('.emailInput'),
@@ -78,18 +78,15 @@ document.addEventListener('DOMContentLoaded', function() {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const result = await LoginService.sendLogin(loginInputs.email.value, loginInputs.password.value);
-        if(result === 'error') return;
+        if (result === 'error') return;
         loadNavbar();
         window.location.href = '/';
     });
+}
 
-    // document.addEventListener('click', function(event) {
-    //     if (!registerForm.contains(event.target)) {
-    //         resetFormValidation(registerForm, registerInputs);
-    //     }
-    //     if (!loginForm.contains(event.target)) {
-    //         resetFormValidation(loginForm, loginInputs);
-    //     }
-    // });
-
+document.addEventListener('DOMContentLoaded', () => {
+    const loggedInUser = localStorage.getItem('username');
+    if (loggedInUser && loggedInUser !== '') window.location.href = '/';
+    initRegisterForm();
+    initLoginForm();
 });

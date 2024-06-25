@@ -5,16 +5,13 @@ import { getUserByEmail } from '../services/user-service';
 export function handleRegister() {
     return async (req, res, next) => {
         try {
+            if (req.session.username) throw new Error("User already logged in");
+
             const salt_rounds = 10;
             const salt = await bcrypt.genSalt(salt_rounds);
             req.body.password = await bcrypt.hash(req.body.password, salt);
-
-            req.session.username = req.body.username;
-            req.session.num_refresh = 0;
-            req.session.creation_time = Date.now();
-
-            await req.session.save();
-            req.body.username = req.session.username;
+            req.params.username = req.body.username;
+            req.body.username = '';
             next();
         } catch (error) {
             console.error('Password errors: ', error);
@@ -32,10 +29,12 @@ export function handleLogin() {
             const result = await bcrypt.compare(req.body.password, user.password);
             if (!result) throw new Error("Password does not match");
 
+            if (req.session.username) throw new Error("User already logged in");
+
             req.session.username = user.username;
             req.session.num_refresh = 0;
             req.session.creation_time = Date.now();
-            
+
             await req.session.save();
             req.body.username = req.session.username;
             next();
@@ -64,7 +63,7 @@ export function handleLogout() {
 export function handleAuth() {
     return async (req, res, next) => {
         try {
-            
+
             if (!req.session) {
                 req.body.username = null;
                 return next();
@@ -93,7 +92,7 @@ export function handleAuth() {
                 req.session.creation_time = Date.now();
                 await req.session.save();
             }
-            
+
             req.body.username = req.session.username;
             next();
         } catch (error) {
