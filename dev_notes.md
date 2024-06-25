@@ -18,8 +18,6 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 
 + extra
     - backend: add more tests involving sessions
-    - backend: add sending verification email
-    - backend: change tests to use sessions
     - frontend: display username under each patch
 
 =============================================================================
