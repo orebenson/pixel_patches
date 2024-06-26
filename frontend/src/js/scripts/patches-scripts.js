@@ -1,5 +1,5 @@
-import * as PatchService from './api/patchService.js';
-import { loadNavbar } from './utils/navbar-utils.js';
+import * as PatchService from '../api/patches-service.js';
+import { loadNavbar } from '../utils/navbar-utils.js';
 
 const PAGE_SIZE = 16;
 const PATCH_PIXEL_COUNT = 64;

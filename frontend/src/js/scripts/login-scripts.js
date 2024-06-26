@@ -1,5 +1,5 @@
-import * as LoginService from '../js/api/loginService.js';
-import { loadNavbar } from './utils/navbar-utils.js';
+import * as LoginService from '../api/login-service.js';
+import { loadNavbar } from '../utils/navbar-utils.js';
 
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
