@@ -20,6 +20,7 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 + extra
     - backend: add more tests involving sessions
     - frontend: display username under each patch
+    - frontend: show currently selected colour on palette
 
 =============================================================================
 - see 'Rooms' game on iphone for references
@@ -30,6 +31,7 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 - add forgot password
 
 ### v1.3 - api security
+- move frontend to npm and typescript
 - add api documentation
 - secure API to industry standard:
 - create separate module for checking user permissions (see monkeytype)
@@ -42,14 +44,15 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
     - Error handling (status codes)
     - Prevent open redirects
     - Only allow certain number of login requests from a specific source ip
+    - captcha
 
 ### v2.0 - deployment (optional)
-database - firestore
+database - firestore/mongodb atlas
 backend - firebase functions
     - auth - firebase auth
     - sessions - firestore
 frontend - firebase hosting
-
+create docker-comepose yml to deploy frontend and backend
 
 =============================================================================
 
@@ -81,4 +84,20 @@ frontend - firebase hosting
 - user has a number of likes to give out per day
 - add a sharing option to share new patches on different platforms
 
+=============================================================================
 
+## Marketing/Social/Release ideas
+### Minimum for product release and spread
+- must have the dimension change options
+- must have filters on the 'all patches' page
+    - nsfw (!!)
+    - popularity
+    - date
+    - dimensions
+    - username
+- must not allow usernames with profanities
+- must have full stack security (rate limiting especially)
+
+### How to spread
+- create tiktok + instagram account
+    - post daily/weekly patches (can be a video of patch being created)
