@@ -52,6 +52,7 @@ backend - firebase functions
     - auth - firebase auth
     - sessions - firestore
 frontend - firebase hosting
+CI/CD - github actions (create main and dev branch)
 create docker-comepose yml to deploy frontend and backend
 
 =============================================================================
