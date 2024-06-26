@@ -1,4 +1,4 @@
-const BACKEND_URL = process.env.BACKEND_URL;
+import { BACKEND_URL } from "../config.js";
 
 function debugLog(method, path, json) {
     console.log(`API DEBUG ${method} ${path} status: ${json.status} message: ${json.message}`);

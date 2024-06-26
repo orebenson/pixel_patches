@@ -2,7 +2,7 @@
 
 ## Setup and run
 
-1. Create a `.env` file with the following variables:
+1. Create a `config.js` file with the following variables:
    ```
    BACKEND_URL="http://127.0.0.1:3000"
    ```

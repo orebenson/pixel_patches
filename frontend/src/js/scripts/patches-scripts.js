@@ -1,7 +1,7 @@
 import * as PatchService from '../api/patches-service.js';
 import { loadNavbar } from '../utils/navbar-utils.js';
 
-const PAGE_SIZE = 16;
+const PAGE_SIZE = 32;
 const PATCH_PIXEL_COUNT = 64;
 let current_page_number = 1;
 let max_page_number = 0;
@@ -87,11 +87,16 @@ function initPage() {
         .catch(error => console.error("error in initPage: ", error));
 }
 
-document.getElementById('next-page-button').addEventListener('click', loadPage(current_page_number + 1));
-document.getElementById('prev-page-button').addEventListener('click', loadPage(current_page_number - 1));
+
 window.addEventListener('DOMContentLoaded', () => {
     loadNavbar();
     initPage();
+    document.querySelector('#next-page-button').addEventListener('click', () => {
+        loadPage(current_page_number + 1)
+    });
+    document.querySelector('#prev-page-button').addEventListener('click', () => {
+        loadPage(current_page_number - 1)
+    });
 })
 
 

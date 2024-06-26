@@ -5,16 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "local": "http-server src/html --gzip --cors",
-    "start": "http-server src/html --gzip --cors"
+    "local": "http-server src/ --gzip --cors -c-1",
+    "start": "http-server src/ --gzip --cors -c-1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "http-server": "^14.1.1"
-  },
-  "devDependencies": {
-    "dotenv": "^16.4.5"
   }
 }
