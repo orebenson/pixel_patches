@@ -4,10 +4,13 @@
 
 1. Create a `.env` file with the following variables:
    ```
-   DB_URL=mongodb_url
-   FRONTEND_URL=frontend_url
-   PORT=port_number
-   SESSION_SECRET=your_secret
+   DB_URL="mongodb://127.0.0.1:27017/patchdb"
+   SESSION_DB_URL="mongodb://127.0.0.1:27017/sessions"
+   FRONTEND_URL="http://127.0.0.1:8080"
+   PORT=3000
+   SESSION_SECRET="secret"
+   MODE="prod"
+
    ```
 
 2. Start the server:

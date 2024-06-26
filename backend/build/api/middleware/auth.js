@@ -24,11 +24,6 @@ function handleRegister() {
             const salt_rounds = 10;
             const salt = yield bcrypt_1.default.genSalt(salt_rounds);
             req.body.password = yield bcrypt_1.default.hash(req.body.password, salt);
-            // req.session.username = req.body.username;
-            // req.session.num_refresh = 0;
-            // req.session.creation_time = Date.now();
-            // await req.session.save();
-            // req.body.username = req.session.username;
             req.params.username = req.body.username;
             req.body.username = '';
             next();

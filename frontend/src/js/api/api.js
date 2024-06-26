@@ -1,4 +1,4 @@
-import { BACKEND_URL } from '../utils/constants.js'
+const BACKEND_URL = process.env.BACKEND_URL;
 
 function debugLog(method, path, json) {
     console.log(`API DEBUG ${method} ${path} status: ${json.status} message: ${json.message}`);

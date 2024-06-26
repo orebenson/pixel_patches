@@ -15,7 +15,7 @@ export async function getPatches(start_index, end_index) {
     if (end_index < 0) return;
     const result = await Api.GET(`/patch/list/${start_index}/${end_index}`);
     if (result === 'error') {
-        alert('error getting patches');
+        // alert('error getting patches');
         return [];
     };
     return result;
@@ -24,7 +24,7 @@ export async function getPatches(start_index, end_index) {
 export async function getTotalPatches() {
     const result = await Api.GET('/patch/list/count');
     if (result === 'error') {
-        alert('error getting total patches');
+        // alert('error getting total patches');
         return null;
     };
     return result;

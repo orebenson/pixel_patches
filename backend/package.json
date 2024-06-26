@@ -8,7 +8,7 @@
     "watch": "tsc --build --watch",
     "clean": "tsc --build --clean",
     "start": "set MODE=prod && npm run build && node ./build/server.js",
-    "start-local": "set MODE=test && npm run build && node ./build/server.js",
+    "local": "set MODE=test && npm run build && node ./build/server.js",
     "dev": "ts-node-dev --transpile-only --inspect -- ./src/server.ts",
     "test": "set MODE=test && npm run build && jest"
   },
