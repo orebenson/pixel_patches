@@ -66,9 +66,7 @@ create docker-comepose yml to deploy frontend and backend
 
 + General features
 - dimensions can be from 2,4,8,16,32,64 (they are all 64 x 64) (page starts on 8x8)
-- custom MLP written in C for simple classification to 
-    - label nsfw patches
-    - group patches into themes for sorting?
+- nsfw filtering/labelling - (use tensorflow!!)
 - custom compression/decompression utility written in c and called by backend
     - must be deterministoc for 64 x 64
 - add gif animation options (each frame is its own patch)
@@ -90,7 +88,7 @@ create docker-comepose yml to deploy frontend and backend
 ### Minimum for product release and spread
 - must have the dimension change options
 - must have filters on the 'all patches' page
-    - nsfw (!!)
+    - nsfw (blur them!!, also must have an account to view, with nsfw enabled) 
     - popularity
     - date
     - dimensions
