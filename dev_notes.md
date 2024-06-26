@@ -12,9 +12,10 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
     - frontend: on click of verification email: send to backend > return success/error message
 
 + forgot password feature
-    - backend: add /user/resetpassword > if email exists, send link to email to reset
-    - frontend: add reset password request form page > input email > post email to /user/resetpassword > return success/error and redirect
-    - frontend: add reset password form page > input new password twice > post to backend > return success/error and redirect
+    1- frontend: add reset password request form page > input email > post email to /user/resetpassword > return success/error and redirect
+    2- backend: add /user/resetpassword > if email exists, send link to email to reset - link contains token, when clicked:
+    3- frontend: after email clicked > reset password form page > input new password twice > post to backend > return success/error and redirect
+    4- backend: add /user/newpassword > new password for the given email
 
 + extra
     - backend: add more tests involving sessions
