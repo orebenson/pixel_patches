@@ -12,11 +12,10 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
     - frontend: on click of verification email: send to backend > return success/error message
 
 + forgot password feature
-    - setup a gmail account and password for application usage
+    - setup a gmail account and password for application usage (find a domain that isnt taken)
 
 + extra
-    - backend: add more tests:
-        - reset password flow with email?
+    - backend: add test for reset password flow with email?
     - frontend: display username under each patch
     - frontend: show currently selected colour on palette
 
