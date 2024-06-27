@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    verified: {
+        type: Boolean,
+        default: false
     }
 }, { collection: 'users' })
 

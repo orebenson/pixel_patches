@@ -48,6 +48,10 @@ router.post('/login', (0, validation_1.validateFields)({
 });
 router.post('/logout', (0, auth_1.handleLogout)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Logout user success'));
 router.post('/resetpassword', (0, validation_1.validateFields)({
-    email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+    email: value => value.length > 0 && value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 }), (0, auth_1.handleResetPassword)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Reset password success'));
+router.post('/newpassword', (0, validation_1.validateFields)({
+    userid: value => value.length > 0,
+    token: value => value.length > 0
+}), (0, auth_1.handleNewPassword)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'New password success'));
 exports.default = router;

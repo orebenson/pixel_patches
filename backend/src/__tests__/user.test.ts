@@ -130,7 +130,7 @@ describe('POST /user/logout', () => {
 
         const response2 = await sessionRequest.post('/user/login').send(testUsers.TEST_USER_1);
         expect(response2.status).toBe(200);
-        
+
         const response3 = await sessionRequest.post('/user/logout').send();
         expect(response3.status).toBe(200);
     });
@@ -152,5 +152,27 @@ describe('POST /user', () => {
         const response3 = await sessionRequest.post('/user');
         expect(response3.status).toBe(200);
         expect(response3.body.headers.username).toBe(testUsers.TEST_USER_1.username);
+    });
+});
+
+describe('POST /user/resetpassword', () => {
+    it('Creates an account, sends resetpassword request', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/resetpassword').send({ email: testUsers.TEST_USER_1.email });
+        expect(response2.status).toBe(400);  // proper email link testing has not been setup
+    });
+
+    it('Creates an account, sends new password', async () => {
+        const sessionRequest = session(app);
+
+        const response = await sessionRequest.post('/user/register').send(testUsers.TEST_USER_1);
+        expect(response.status).toBe(200);
+
+        const response2 = await sessionRequest.post('/user/newpassword').send({ userid: 123, token: 123, password: testUsers.TEST_USER_1.password });
+        expect(response2.status).toBe(400); // proper email link testing has not been setup
     });
 });

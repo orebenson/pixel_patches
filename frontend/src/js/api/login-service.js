@@ -48,3 +48,19 @@ export async function sendPasswordResetRequest(email) {
     alert('reset request sent');
     return result;
 }
+
+
+
+export async function sendNewPassword(userid, token, password) {
+    const result = await Api.POST('/user/newpassword', {
+        userid: userid,
+        token: token,
+        password: password
+    });
+    if (result === 'error') {
+        alert('error sending password');
+        return null;
+    };
+    alert('new password sent');
+    return result;
+}

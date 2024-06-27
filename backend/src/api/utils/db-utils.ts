@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import { Logger } from "../utils/log-utils";
+
+const log = Logger.getInstance();
 
 export async function dropCollectionIfExists(collection: string, db_connection: mongoose.Connection) {
     try {
@@ -7,11 +10,11 @@ export async function dropCollectionIfExists(collection: string, db_connection: 
 
         if (collectionExists) {
             await db_connection.db.dropCollection(collection);
-            console.log(`${collection} collection found and dropped (dev only)`);
+            log.logMessage(`${collection} collection found and dropped (dev only)`);
         } else {
-            console.log("collection doesn't exist, creating new");
+            log.logMessage("collection doesn't exist, creating new");
         }
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        log.logError("DB error:", error);
     }
 }

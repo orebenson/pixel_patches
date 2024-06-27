@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dropCollectionIfExists = void 0;
+const log_utils_1 = require("../utils/log-utils");
+const log = log_utils_1.Logger.getInstance();
 function dropCollectionIfExists(collection, db_connection) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -17,14 +19,14 @@ function dropCollectionIfExists(collection, db_connection) {
             const collectionExists = collections.some(name => name.name === collection);
             if (collectionExists) {
                 yield db_connection.db.dropCollection(collection);
-                console.log(`${collection} collection found and dropped (dev only)`);
+                log.logMessage(`${collection} collection found and dropped (dev only)`);
             }
             else {
-                console.log("collection doesn't exist, creating new");
+                log.logMessage("collection doesn't exist, creating new");
             }
         }
-        catch (err) {
-            console.error(err);
+        catch (error) {
+            log.logError("DB error:", error);
         }
     });
 }

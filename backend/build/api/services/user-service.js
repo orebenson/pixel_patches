@@ -9,24 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserByUsername = exports.getUserById = exports.getUserByEmail = exports.addUser = void 0;
+exports.updateUserPassword = exports.getUserByUsername = exports.getUserById = exports.getUserByEmail = exports.addUser = void 0;
 const user_schema_1 = require("../schemas/user-schema");
+const log_utils_1 = require("../utils/log-utils");
+const log = log_utils_1.Logger.getInstance();
 function addUser() {
     return __awaiter(this, arguments, void 0, function* (params = { email: '', username: '', password: '' }) {
-        const email = params.email;
-        const username = params.username;
-        const password = params.password;
         try {
             const user = new user_schema_1.User({
-                email: email,
-                username: username,
-                password: password,
+                email: params.email,
+                username: params.username,
+                password: params.password,
             });
             yield user.save();
             return { status: 200, message: 'success saving user', data: {} };
         }
         catch (error) {
-            console.error(`User error: ${error}`);
+            log.logError("User error: ", error);
             return { status: 500, message: 'error saving user', data: {} };
         }
     });
@@ -34,15 +33,14 @@ function addUser() {
 exports.addUser = addUser;
 function getUserByEmail(params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const email = params.email;
         try {
-            const user = yield user_schema_1.User.findOne({ email: email });
+            const user = yield user_schema_1.User.findOne({ email: params.email });
             if (!user)
                 throw new Error('User does not exist');
             return user;
         }
         catch (error) {
-            console.error(`User error: ${error}`);
+            log.logError("User error: ", error);
             return null;
         }
     });
@@ -50,15 +48,14 @@ function getUserByEmail(params) {
 exports.getUserByEmail = getUserByEmail;
 function getUserById(params) {
     return __awaiter(this, void 0, void 0, function* () {
-        const uid = params.uid;
         try {
-            const user = yield user_schema_1.User.findOne({ _id: uid });
+            const user = yield user_schema_1.User.findOne({ _id: params.userid });
             if (!user)
                 throw new Error('User does not exist');
             return user;
         }
         catch (error) {
-            console.error(`User error: ${error}`);
+            log.logError("User error: ", error);
             return null;
         }
     });
@@ -66,17 +63,28 @@ function getUserById(params) {
 exports.getUserById = getUserById;
 function getUserByUsername() {
     return __awaiter(this, arguments, void 0, function* (params = { username: '' }) {
-        const username = params.username;
         try {
-            const user = yield user_schema_1.User.findOne({ username: username });
+            const user = yield user_schema_1.User.findOne({ username: params.username });
             if (!user)
                 throw new Error('User does not exist');
             return user;
         }
         catch (error) {
-            console.error(`User error: ${error}`);
+            log.logError("User error: ", error);
             return null;
         }
     });
 }
 exports.getUserByUsername = getUserByUsername;
+function updateUserPassword(params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield user_schema_1.User.updateOne({ _id: params.userid }, { $set: { password: params.password } }, { new: true });
+            return;
+        }
+        catch (error) {
+            throw error;
+        }
+    });
+}
+exports.updateUserPassword = updateUserPassword;

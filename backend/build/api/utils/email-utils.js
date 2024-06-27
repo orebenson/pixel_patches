@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendPasswordResetRequestEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
+const log_utils_1 = require("../utils/log-utils");
+const log = log_utils_1.Logger.getInstance();
 function sendPasswordResetRequestEmail(email, username, resetlink) {
     return __awaiter(this, void 0, void 0, function* () {
         let transporter = nodemailer_1.default.createTransport({
@@ -37,10 +39,9 @@ function sendPasswordResetRequestEmail(email, username, resetlink) {
         };
         try {
             const info = yield transporter.sendMail(mailOptions);
-            console.log('Email sent: ' + info.response);
+            log.logMessage(`Email sent: ${info.response}`);
         }
         catch (error) {
-            console.error("Email error: ", error);
             throw error;
         }
     });

@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateFields = void 0;
 const api_utils_1 = require("../utils/api-utils");
+const log_utils_1 = require("../utils/log-utils");
+const log = log_utils_1.Logger.getInstance();
 const validateField = (fieldName, value, validationFunction) => {
     if (!validationFunction(value)) {
         return `${fieldName} is invalid`;
@@ -28,7 +30,9 @@ function validateFields(field_validation_functions = {}) {
             }
         }
         if (errors.length > 0) {
-            console.error('Validation Errors: ', errors);
+            for (let err of errors) {
+                log.logError('Validation Error: ', err);
+            }
             yield (0, api_utils_1.handleResponse)(res, 400, 'Validation failed');
             return;
         }

@@ -4,18 +4,18 @@ form {
     gap: 0.5rem;
 }
 
-#account-options-container {
+#account-options-container, #newpassword-options-container {
     display: flex;
     gap: 1rem;
     flex-direction: row;
 }
 
 @media only screen and (max-width: 600px) {
-    #account-options-container {
+    #account-options-container, #newpassword-options-container {
         flex-direction: column;
     }
 }
 
-#register-container, #login-container, #forgotpassword-container {
+#register-container, #login-container, #forgotpassword-container, #newpassword-container {
     min-width: 10rem;
 }

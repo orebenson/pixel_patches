@@ -1,4 +1,7 @@
 import nodemailer from 'nodemailer';
+import { Logger } from "../utils/log-utils";
+
+const log = Logger.getInstance();
 
 export async function sendPasswordResetRequestEmail(email: string, username: string, resetlink: string) {
 
@@ -25,7 +28,7 @@ export async function sendPasswordResetRequestEmail(email: string, username: str
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent: ' + info.response);
+        log.logMessage(`Email sent: ${info.response}`);
     } catch (error) {
         throw error;
     }

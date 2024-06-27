@@ -1,4 +1,7 @@
 import { handleResponse } from '../utils/api-utils';
+import { Logger } from "../utils/log-utils";
+
+const log = Logger.getInstance();
 
 const validateField = (fieldName, value, validationFunction) => {
     if (!validationFunction(value)) {
@@ -7,7 +10,7 @@ const validateField = (fieldName, value, validationFunction) => {
     return null;
 };
 
-export function validateFields(field_validation_functions={}) {
+export function validateFields(field_validation_functions = {}) {
     return async (req, res, next) => {
         const errors = [];
 
@@ -24,7 +27,9 @@ export function validateFields(field_validation_functions={}) {
         }
 
         if (errors.length > 0) {
-            console.error('Validation Errors: ', errors);
+            for (let err of errors) {
+                log.logError('Validation Error: ', err);
+            }
             await handleResponse(res, 400, 'Validation failed');
             return;
         }

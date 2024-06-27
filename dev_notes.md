@@ -14,17 +14,9 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 + forgot password feature
     - setup a gmail account and password for application usage
 
-
-
-    1- frontend: add reset password request form page > input email > post email to /user/resetpassword > return success/error
-    2- backend: add /user/resetpassword > if email exists, create token, send link to email to reset - link contains token, when clicked:
-
-
-    3- frontend: after email clicked > reset password form page > input new password twice > post to backend > return success/error and redirect
-    4- backend: add /user/newpassword > new password for the given email
-
 + extra
-    - backend: add more tests involving sessions
+    - backend: add more tests:
+        - reset password flow with email?
     - frontend: display username under each patch
     - frontend: show currently selected colour on palette
 
@@ -34,7 +26,6 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 ### v1.0 - MVP
 ### v1.1 - validation and code quality
 ### v1.2 - register, signin, sessions
-- add forgot password
 
 ### v1.3 - api security
 - move frontend to npm and typescript
@@ -86,7 +77,6 @@ create docker-comepose yml to deploy frontend and backend
 
 + Social features
 - limit uploads from each client daily (1 per day?)
-- user has a number of likes to give out per day
 - add a sharing option to share new patches on different platforms
 
 =============================================================================
@@ -108,3 +98,7 @@ create docker-comepose yml to deploy frontend and backend
 ### How to spread
 - create tiktok + instagram account
     - post daily/weekly patches (can be a video of patch being created)
+
+- monthly vote for new colour to be added to palette
+- create a user feedback form?
+- share button to share to social media

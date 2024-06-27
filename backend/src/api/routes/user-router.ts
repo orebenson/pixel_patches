@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as UserService from "../services/user-service"
 import { handleRequest, handleResponse } from "../utils/api-utils"
 import { validateFields } from "../middleware/validation"
-import { handleRegister, handleLogout, handleLogin, handleAuth, handleResetPassword } from "../middleware/auth"
+import { handleRegister, handleLogout, handleLogin, handleAuth, handleResetPassword, handleNewPassword } from "../middleware/auth"
 
 const router = Router();
 
@@ -48,10 +48,19 @@ router.post('/logout',
 
 router.post('/resetpassword',
     validateFields({
-        email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        email: value => value.length > 0 && value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
     }),
     handleResetPassword(),
     (req, res) => handleResponse(res, 200, 'Reset password success')
+);
+
+router.post('/newpassword',
+    validateFields({
+        userid: value => value.length > 0,
+        token: value => value.length > 0
+    }),
+    handleNewPassword(),
+    (req, res) => handleResponse(res, 200, 'New password success')
 );
 
 export default router;

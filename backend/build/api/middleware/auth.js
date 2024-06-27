@@ -35,14 +35,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleResetPassword = exports.handleAuth = exports.handleLogout = exports.handleLogin = exports.handleRegister = void 0;
+exports.handleNewPassword = exports.handleResetPassword = exports.handleAuth = exports.handleLogout = exports.handleLogin = exports.handleRegister = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const api_utils_1 = require("../utils/api-utils");
 const user_service_1 = require("../services/user-service");
 const TokenService = __importStar(require("../services/token-service"));
+const log_utils_1 = require("../utils/log-utils");
 const crypto_1 = __importDefault(require("crypto"));
 const email_utils_1 = require("../utils/email-utils");
 const FRONTEND_URL = process.env.FRONTEND_URL;
+const log = log_utils_1.Logger.getInstance();
 function handleRegister() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
@@ -56,7 +58,7 @@ function handleRegister() {
             next();
         }
         catch (error) {
-            console.error('Password errors: ', error);
+            log.logError('Password errors: ', error);
             (0, api_utils_1.handleResponse)(res, 400, 'Register user failed');
         }
     });
@@ -81,7 +83,7 @@ function handleLogin() {
             next();
         }
         catch (error) {
-            console.error('Login errors: ', error);
+            log.logError('Login errors: ', error);
             (0, api_utils_1.handleResponse)(res, 400, 'Login user failed');
         }
     });
@@ -97,7 +99,7 @@ function handleLogout() {
             next();
         }
         catch (error) {
-            console.error('Logout errors: ', error);
+            log.logError('Logout errors: ', error);
             (0, api_utils_1.handleResponse)(res, 400, 'Logout user failed');
         }
     });
@@ -115,13 +117,13 @@ function handleAuth() {
                 req.body.username = null;
                 return next();
             }
-            if (Date.now() > (req.session.creation_time + (1000 * 60 * 60 * 12))) {
+            if (Date.now() > (Number(req.session.creation_time) + (1000 * 60 * 60 * 12))) {
                 yield req.session.destroy();
                 req.body.username = null;
                 return next();
             }
             // within 10 mins of expiry
-            if (((req.session.creation_time + (1000 * 60 * 60 * 12)) - Date.now()) < (1000 * 60 * 10)) {
+            if (((Number(req.session.creation_time) + (1000 * 60 * 60 * 12)) - Date.now()) < (1000 * 60 * 10)) {
                 const username = req.session.username;
                 const num_refresh = req.session.num_refresh;
                 yield req.session.destroy();
@@ -135,7 +137,7 @@ function handleAuth() {
             next();
         }
         catch (error) {
-            console.error('Auth errors: ', error);
+            log.logError('Auth errors: ', error);
             (0, api_utils_1.handleResponse)(res, 400, 'Auth failed');
         }
     });
@@ -153,14 +155,35 @@ function handleResetPassword() {
             const salt = yield bcrypt_1.default.genSalt(salt_rounds);
             const hash = yield bcrypt_1.default.hash(resetToken, salt);
             yield TokenService.addToken({ userid: user._id, token: hash });
-            const link = `${FRONTEND_URL}/passwordReset?token=${resetToken}&id=${user._id}`;
+            const link = `${FRONTEND_URL}/newpassword?tk=${resetToken}&id=${user._id}`;
             yield (0, email_utils_1.sendPasswordResetRequestEmail)(user.email, user.username, link);
             next();
         }
         catch (error) {
-            console.error('Reset password errors: ', error);
+            log.logError('Reset password errors: ', error);
             (0, api_utils_1.handleResponse)(res, 400, 'Reset password failed');
         }
     });
 }
 exports.handleResetPassword = handleResetPassword;
+function handleNewPassword() {
+    return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield TokenService.validateResetToken({ userid: req.body.userid, resetToken: req.body.token });
+            const user = yield (0, user_service_1.getUserById)({ userid: req.body.userid });
+            if (!user)
+                throw new Error("User does not exist");
+            const salt_rounds = 10;
+            const salt = yield bcrypt_1.default.genSalt(salt_rounds);
+            const hash = yield bcrypt_1.default.hash(req.body.password, salt);
+            yield (0, user_service_1.updateUserPassword)({ userid: req.body.userid, password: hash });
+            yield TokenService.deleteToken({ userid: user._id });
+            next();
+        }
+        catch (error) {
+            log.logError('New password errors: ', error);
+            (0, api_utils_1.handleResponse)(res, 400, 'New password failed');
+        }
+    });
+}
+exports.handleNewPassword = handleNewPassword;

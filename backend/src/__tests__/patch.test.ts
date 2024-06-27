@@ -84,7 +84,7 @@ describe('POST /patch/add', () => {
         const response = await request.post('/patch/add').send({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 });
         expect(response.status).toBe(200);
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
 
         const patch = await Patch.findOne({ patchPixelHexes: testHexArrays.HEX_ARRAY_1 });
         expect(patch).not.toBeNull();

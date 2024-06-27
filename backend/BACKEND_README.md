@@ -10,7 +10,11 @@
    PORT=3000
    SESSION_SECRET="secret"
    MODE="prod"
-
+   PATH_TO_LOG_FOLDER="./logs/"
+   EMAIL_HOST="gmail"
+   EMAIL_USERNAME=
+   EMAIL_PASSWORD=
+   EMAIL_FROM=
    ```
 
 2. Start the server:

@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteToken = exports.addToken = void 0;
+exports.validateResetToken = exports.deleteToken = exports.addToken = void 0;
 const token_schema_1 = require("../schemas/token-schema");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 function addToken(params) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -19,11 +23,10 @@ function addToken(params) {
                 token: params.token
             });
             yield token.save();
-            return { status: 200, message: 'success saving token', data: {} };
+            return;
         }
         catch (error) {
-            console.error(`Token error: ${error}`);
-            return { status: 500, message: 'error saving token', data: {} };
+            return error;
         }
     });
 }
@@ -34,12 +37,30 @@ function deleteToken(params) {
             let token = yield token_schema_1.Token.findOne({ userid: params.userid });
             if (token)
                 yield token.deleteOne();
-            return { status: 200, message: 'success deleting token', data: {} };
+            return;
         }
         catch (error) {
-            console.error(`Token error: ${error}`);
-            return { status: 500, message: 'error deleting token', data: {} };
+            return error;
         }
     });
 }
 exports.deleteToken = deleteToken;
+function validateResetToken(params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let token = yield token_schema_1.Token.findOne({ userid: params.userid });
+            if (!token)
+                throw new Error("Invalid reset token");
+            if (Date.now() > (Number(token.date) + (1000 * 60 * 15)))
+                throw new Error("Expired reset token");
+            const valid = yield bcrypt_1.default.compare(params.resetToken, token.token);
+            if (!valid)
+                throw new Error("Invalid reset token");
+            return;
+        }
+        catch (error) {
+            throw error;
+        }
+    });
+}
+exports.validateResetToken = validateResetToken;

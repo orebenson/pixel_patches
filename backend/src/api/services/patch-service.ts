@@ -1,4 +1,7 @@
 import { Patch } from '../schemas/patch-schema';
+import { Logger } from "../utils/log-utils";
+
+const log = Logger.getInstance();
 
 export async function addPatch(params = { username: null, patchPixelHexes: [] }) {
     const username = params.username ? params.username : null;
@@ -11,7 +14,7 @@ export async function addPatch(params = { username: null, patchPixelHexes: [] })
         await patch.save();
         return { status: 200, message: 'success saving patch', data: {} };
     } catch (error) {
-        console.error(`patch error: ${error}`);
+        log.logError("Patch error: ", error);
         return { status: 500, message: 'error saving patch', data: {} };
     }
 }
@@ -21,7 +24,7 @@ export async function getAllPatches() {
         const patches = await Patch.find({}).select('patchPixelHexes username -_id');
         return { status: 200, message: 'success getting patches', data: patches };;
     } catch (error) {
-        console.error(`patch error ${error}`)
+        log.logError("Patch error: ", error)
         return { status: 500, message: 'error getting patches', data: {} };;
     }
 }
@@ -48,7 +51,7 @@ export async function getPatchesByRange(params = { start_index: 0, end_index: 0 
             .select('patchPixelHexes username -_id');
         return { status: 200, message: 'success getting patches', data: patches };
     } catch (error) {
-        console.error(`patch error ${error}`);
+        log.logError("Patch error: ", error);
         return { status: 500, message: 'error getting patches', data: {} };
     }
 }
@@ -58,7 +61,7 @@ export async function getPatchCount() {
         const patchCount = await Patch.countDocuments({});
         return { status: 200, message: 'success getting patch count', data: { patchCount } };
     } catch (error) {
-        console.error(`patch error ${error}`)
+        log.logError("Patch error: ", error)
         return { status: 500, message: 'error getting patch count', data: {} };;
     }
 }

@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPatchCount = exports.getPatchesByRange = exports.getAllPatches = exports.addPatch = void 0;
 const patch_schema_1 = require("../schemas/patch-schema");
+const log_utils_1 = require("../utils/log-utils");
+const log = log_utils_1.Logger.getInstance();
 function addPatch() {
     return __awaiter(this, arguments, void 0, function* (params = { username: null, patchPixelHexes: [] }) {
         const username = params.username ? params.username : null;
@@ -24,7 +26,7 @@ function addPatch() {
             return { status: 200, message: 'success saving patch', data: {} };
         }
         catch (error) {
-            console.error(`patch error: ${error}`);
+            log.logError("Patch error: ", error);
             return { status: 500, message: 'error saving patch', data: {} };
         }
     });
@@ -38,7 +40,7 @@ function getAllPatches() {
             ;
         }
         catch (error) {
-            console.error(`patch error ${error}`);
+            log.logError("Patch error: ", error);
             return { status: 500, message: 'error getting patches', data: {} };
             ;
         }
@@ -70,7 +72,7 @@ function getPatchesByRange() {
             return { status: 200, message: 'success getting patches', data: patches };
         }
         catch (error) {
-            console.error(`patch error ${error}`);
+            log.logError("Patch error: ", error);
             return { status: 500, message: 'error getting patches', data: {} };
         }
     });
@@ -83,7 +85,7 @@ function getPatchCount() {
             return { status: 200, message: 'success getting patch count', data: { patchCount } };
         }
         catch (error) {
-            console.error(`patch error ${error}`);
+            log.logError("Patch error: ", error);
             return { status: 500, message: 'error getting patch count', data: {} };
             ;
         }
