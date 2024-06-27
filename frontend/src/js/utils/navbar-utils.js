@@ -1,14 +1,4 @@
-import * as Api from '../api/api.js';
-
-async function logoutUser() {
-    const result = await Api.POST('/user/logout');
-    if (result === 'error') {
-        alert('error logging out');
-        return null;
-    };
-    localStorage.removeItem('username');
-    location.href = location.href;
-}
+import { sendLogout } from "../api/login-service.js";
 
 export function loadNavbar() {
     const loggedInUser = localStorage.getItem('username');
@@ -24,7 +14,7 @@ export function loadNavbar() {
             logoutButton.id = "logout";
             logoutButton.addEventListener('click', function (event) {
                 event.preventDefault();
-                logoutUser();
+                sendLogout();
             });
 
             loginNavItem.parentNode.insertBefore(logoutButton, loginNavItem.nextSibling);

@@ -12,8 +12,14 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
     - frontend: on click of verification email: send to backend > return success/error message
 
 + forgot password feature
-    1- frontend: add reset password request form page > input email > post email to /user/resetpassword > return success/error and redirect
-    2- backend: add /user/resetpassword > if email exists, send link to email to reset - link contains token, when clicked:
+    - setup a gmail account and password for application usage
+
+
+
+    1- frontend: add reset password request form page > input email > post email to /user/resetpassword > return success/error
+    2- backend: add /user/resetpassword > if email exists, create token, send link to email to reset - link contains token, when clicked:
+
+
     3- frontend: after email clicked > reset password form page > input new password twice > post to backend > return success/error and redirect
     4- backend: add /user/newpassword > new password for the given email
 
@@ -87,7 +93,9 @@ create docker-comepose yml to deploy frontend and backend
 
 ## Marketing/Social/Release ideas
 ### Minimum for product release and spread
-- must have the dimension change options
+- must have minimum canvas features
+    - fill paint bucket
+    - erase pixel
 - must have filters on the 'all patches' page
     - nsfw (blur them!!, also must have an account to view, with nsfw enabled) 
     - popularity

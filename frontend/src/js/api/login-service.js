@@ -27,8 +27,24 @@ export async function sendLogin(email, password) {
     return result;
 }
 
-export function sendLogout() {
-    // remove current user from local storage
-    // send request to logout 
-    return;
+export async function sendLogout() {
+    const result = await Api.POST('/user/logout');
+    if (result === 'error') {
+        alert('error logging out');
+        return null;
+    };
+    localStorage.removeItem('username');
+    location.href = location.href;
+}
+
+export async function sendPasswordResetRequest(email) {
+    const result = await Api.POST('/user/resetpassword', {
+        email: email
+    });
+    if (result === 'error') {
+        alert('error sending password reset request');
+        return null;
+    };
+    alert('reset request sent');
+    return result;
 }

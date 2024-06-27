@@ -59,6 +59,7 @@ app.use((0, express_session_1.default)({
 }));
 app.use((req, res, next) => {
     console.log(req.method, req.path);
+    console.log(req.body);
     next();
 });
 // routes

@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
 import { handleResponse } from "../utils/api-utils";
 import { getUserByEmail } from '../services/user-service';
+import * as TokenService from "../services/token-service";
+import crypto from "crypto";
+import { sendPasswordResetRequestEmail } from '../utils/email-utils';
+
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 export function handleRegister() {
     return async (req, res, next) => {
@@ -103,3 +108,27 @@ export function handleAuth() {
 }
 
 
+export function handleResetPassword() {
+    return async (req, res, next) => {
+        try {
+            const user = await getUserByEmail({ email: req.body.email });
+            if (!user) throw new Error("User does not exist");
+
+            await TokenService.deleteToken({ userid: user._id });
+
+            let resetToken = crypto.randomBytes(32).toString("hex");
+            const salt_rounds = 10;
+            const salt = await bcrypt.genSalt(salt_rounds);
+            const hash = await bcrypt.hash(resetToken, salt);
+
+            await TokenService.addToken({ userid: user._id, token: hash })
+
+            const link = `${FRONTEND_URL}/passwordReset?token=${resetToken}&id=${user._id}`;
+            await sendPasswordResetRequestEmail(user.email, user.username, link);
+            next();
+        } catch (error) {
+            console.error('Reset password errors: ', error);
+            handleResponse(res, 400, 'Reset password failed');
+        }
+    };
+}

@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { User } from '../schemas/user-schema';
 
 export async function addUser(params = { email: '', username: '', password: '' }) {
@@ -31,7 +32,7 @@ export async function getUserByEmail(params: { email: string }) {
     }
 }
 
-export async function getUserById(params = { uid: '' }) {
+export async function getUserById(params: { uid: Types.ObjectId }) {
     const uid = params.uid;
     try {
         const user = await User.findOne({ _id: uid });

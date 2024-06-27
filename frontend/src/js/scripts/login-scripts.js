@@ -24,7 +24,7 @@ function initRegisterForm() {
     const registerButton = registerForm.querySelector('button[type="submit"]');
 
     function validateRegisterForm() {
-        const isValidUsername = registerInputs.username.value.trim().length > 0;
+        const isValidUsername = registerInputs.username.value.trim().length > 0 && /^[a-zA-Z0-9_-]+$/.test(registerInputs.username.value.trim());
         const isValidEmail = validateEmail(registerInputs.email.value);
         const isEmailMatch = registerInputs.email.value === registerInputs.verifyEmail.value;
         const isValidPassword = registerInputs.password.value.trim().length >= 4;
@@ -84,9 +84,38 @@ function initLoginForm() {
     });
 }
 
+function initResetPasswordForm() {
+    const resetPasswordForm = document.querySelector('#resetpassword-container form');
+    const resetPasswordInputs = {
+        email: resetPasswordForm.querySelector('.emailInput')
+    };
+    const resetPasswordButton = resetPasswordForm.querySelector('button[type="submit"]');
+
+    function validateResetPasswordForm() {
+        const isValidEmail = validateEmail(resetPasswordInputs.email.value);
+
+        resetPasswordInputs.email.classList.toggle('invalid', !isValidEmail);
+
+        resetPasswordButton.disabled = !(isValidEmail);
+    }
+
+    Object.values(resetPasswordInputs).forEach(input => {
+        input.addEventListener('input', validateResetPasswordForm);
+    });
+
+    resetPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const result = await LoginService.sendPasswordResetRequest(resetPasswordInputs.email.value);
+        if (result === 'error') return;
+        loadNavbar();
+        window.location.href = '/login';
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const loggedInUser = localStorage.getItem('username');
     if (loggedInUser && loggedInUser !== '') window.location.href = '/';
     initRegisterForm();
     initLoginForm();
+    initResetPasswordForm();
 });

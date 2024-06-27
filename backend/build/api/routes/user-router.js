@@ -39,7 +39,7 @@ router.post('/', (0, auth_1.handleAuth)(), (req, res) => {
 });
 router.post('/register', (0, auth_1.handleRegister)(), (0, validation_1.validateFields)({
     email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-    username: value => value.length < 64 && value.length > 2
+    username: value => value.length < 64 && value.length > 2 && /^[a-zA-Z0-9_-]+$/.test(value)
 }), (0, api_utils_1.handleRequest)(UserService.addUser));
 router.post('/login', (0, validation_1.validateFields)({
     email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -47,4 +47,7 @@ router.post('/login', (0, validation_1.validateFields)({
     (0, api_utils_1.handleResponse)(res, 200, 'Login user success', {}, { username: req.body.username });
 });
 router.post('/logout', (0, auth_1.handleLogout)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Logout user success'));
+router.post('/resetpassword', (0, validation_1.validateFields)({
+    email: value => value.length < 64 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}), (0, auth_1.handleResetPassword)(), (req, res) => (0, api_utils_1.handleResponse)(res, 200, 'Reset password success'));
 exports.default = router;

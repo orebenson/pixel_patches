@@ -46,7 +46,7 @@ const patchSchema = new mongoose_1.default.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     }
 }, { collection: 'patches' });
 exports.patchSchema = patchSchema;
