@@ -7,6 +7,8 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 =============================================================================
 
 ## features TODO for Current Version (v1.2) (in order of priority)
++ extract login flow (frontend and backend) to 'boilerplate login application'
+
 + add email verification
     - backend: on user registration: send verification email > set verified to false > set verified to true once email link clicked
     - frontend: on click of verification email: send to backend > return success/error message
@@ -18,6 +20,7 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
     - backend: add test for reset password flow with email?
     - frontend: display username under each patch
     - frontend: show currently selected colour on palette
+    - frontend: custom alerts
 
 =============================================================================
 - see 'Rooms' game on iphone for references
@@ -27,8 +30,8 @@ npm test -- -t "POST /patch/add Adds new user and tries to login"
 ### v1.2 - register, signin, sessions
 
 ### v1.3 - api security
-- move frontend to npm and typescript
 - add api documentation
+
 - secure API to industry standard:
 - create separate module for checking user permissions (see monkeytype)
 - create security middleware module to handle exposed api concerns
@@ -91,6 +94,7 @@ create docker-comepose yml to deploy frontend and backend
     - date
     - dimensions
     - username
+    - your username
 - must not allow usernames with profanities
 - must have full stack security (rate limiting especially)
 
