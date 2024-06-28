@@ -13,6 +13,10 @@
     padding: 0;
 }
 
+h1, h2, h3, p, a {
+    text-shadow: rgba(0, 0, 0, 0.3) 0rem 0.05rem 0.1rem;
+}
+
 body {
     height: 100vh;
     width: 100%;
@@ -69,6 +73,7 @@ body {
     align-items: center;
 
     background-color: var(--highlight-color);
+    box-shadow: rgba(0, 0, 0, 0.3) 0rem 0.2rem 0.5rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -89,6 +94,24 @@ body {
     height: 0.12rem;
     border-radius: 0.2rem 0.2rem 0.2rem 0.2rem;
 }
+
+.nav h1 span {
+    display: inline-block;
+    transition: color 0.2s ease;
+}
+
+.nav h1 span:nth-child(1):hover { color: red; }
+.nav h1 span:nth-child(2):hover { color: orange; }
+.nav h1 span:nth-child(3):hover { color: yellow; }
+.nav h1 span:nth-child(4):hover { color: green; }
+.nav h1 span:nth-child(5):hover { color: rgb(20, 155, 92);}
+.nav h1 span:nth-child(6):hover { color: indigo; }
+.nav h1 span:nth-child(7):hover { color: violet; }
+.nav h1 span:nth-child(8):hover { color: purple; }
+.nav h1 span:nth-child(9):hover { color: pink; }
+.nav h1 span:nth-child(10):hover { color: brown; }
+.nav h1 span:nth-child(11):hover { color: rgb(235, 116, 116); }
+.nav h1 span:nth-child(12):hover { color: blue;}
 
 .nav a {
     display: block;
@@ -117,6 +140,7 @@ input {
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Courier New', Courier, monospace;
+    box-shadow: rgba(0, 0, 0, 0.3) 0rem 0.2rem 0.2rem;
 }
 
 input:focus {
@@ -136,6 +160,7 @@ button {
     color: var(--text-color);
     cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
+    box-shadow: rgba(0, 0, 0, 0.3) 0rem 0.2rem 0.2rem;
 }
 
 button:hover {
