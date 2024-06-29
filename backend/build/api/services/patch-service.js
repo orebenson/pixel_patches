@@ -15,15 +15,13 @@ const log_utils_1 = require("../utils/log-utils");
 const log = log_utils_1.Logger.getInstance();
 function addPatch() {
     return __awaiter(this, arguments, void 0, function* (params = { username: null, patchPixelHexes: [] }) {
-        const username = params.username ? params.username : null;
-        const patchPixelHexes = params.patchPixelHexes;
         try {
-            const patchExists = yield patch_schema_1.Patch.findOne({ patchPixelHexes: patchPixelHexes });
+            const patchExists = yield patch_schema_1.Patch.findOne({ patchPixelHexes: params.patchPixelHexes });
             if (!!patchExists)
                 throw new Error('Patch already exists');
             const patch = new patch_schema_1.Patch({
-                patchPixelHexes: patchPixelHexes,
-                username: username
+                patchPixelHexes: params.patchPixelHexes,
+                username: params.username
             });
             yield patch.save();
             return { status: 200, message: 'success saving patch', data: {} };
@@ -57,16 +55,13 @@ function getPatchesByRange() {
         if (start_index === end_index)
             return { status: 200, message: 'success getting patches', data: [] };
         try {
-            if (end_index < start_index) {
+            if (end_index < start_index)
                 throw new Error('end index is less than start index');
-            }
             const totalDocuments = yield patch_schema_1.Patch.countDocuments({});
-            if (start_index > totalDocuments) {
+            if (start_index > totalDocuments)
                 throw new Error('start index is larger than the collection size');
-            }
-            if (end_index > totalDocuments) {
+            if (end_index > totalDocuments)
                 end_index = totalDocuments;
-            }
             const patches = yield patch_schema_1.Patch.find({})
                 .sort({ date: -1 })
                 .skip(start_index)

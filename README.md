@@ -1,5 +1,7 @@
 # Pixel Patches
 
+![](https://github.com/orebenson/pixel_patches/blob/main/frontpage1.png?raw=true)
+
 ## Description
 Pixel Patches is a fun platform for creating and sharing 8x8 pixel art. 
 

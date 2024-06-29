@@ -16,6 +16,12 @@ const log = log_utils_1.Logger.getInstance();
 function addUser() {
     return __awaiter(this, arguments, void 0, function* (params = { email: '', username: '', password: '' }) {
         try {
+            const userExistsEmail = yield user_schema_1.User.findOne({ email: params.email });
+            if (!!userExistsEmail)
+                throw new Error('User already exists');
+            const userExistsUsername = yield user_schema_1.User.findOne({ username: params.username });
+            if (!!userExistsUsername)
+                throw new Error('User already exists');
             const user = new user_schema_1.User({
                 email: params.email,
                 username: params.username,
