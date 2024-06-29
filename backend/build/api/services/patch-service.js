@@ -18,6 +18,9 @@ function addPatch() {
         const username = params.username ? params.username : null;
         const patchPixelHexes = params.patchPixelHexes;
         try {
+            const patchExists = yield patch_schema_1.Patch.findOne({ patchPixelHexes: patchPixelHexes });
+            if (!!patchExists)
+                throw new Error('Patch already exists');
             const patch = new patch_schema_1.Patch({
                 patchPixelHexes: patchPixelHexes,
                 username: username

@@ -1,5 +1,11 @@
 # Pixel Patches Backend API
 
+## Technologies
+- **JavaScript** (migrating to TypeScript)
+- **Node.js**
+- **Express**
+- **MongoDB**
+
 ## Setup and run
 
 1. Create a `.env` file with the following variables:
@@ -11,14 +17,20 @@
    SESSION_SECRET="secret"
    MODE="prod"
    PATH_TO_LOG_FOLDER="./logs/"
-   EMAIL_HOST="gmail"
+
+   // reset password email tests can be run using free etheral email:
+   // https://ethereal.email/create
+   
+   EMAIL_HOST='smtp.ethereal.email'
    EMAIL_USERNAME=
    EMAIL_PASSWORD=
    EMAIL_FROM=
+   EMAIL_PORT=
    ```
 
 2. Start the server:
    ```bash
+   npm install
    npm start
    ```
 

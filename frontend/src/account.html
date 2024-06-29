@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/layout-styles.css">
-    <script src="./js/scripts/404-scripts.js" type="module" defer></script>
+    <link rel="stylesheet" href="./styles/login-styles.css">
+    <script src="./js/scripts/account-scripts.js" type="module" defer></script>
     <title>Pixel Patches</title>
 </head>
 
@@ -20,7 +21,14 @@
             <a href="./login" id="login"></a>
         </div class="nav">
         <div class="page-container">
-            <h1>You shouldn't be here! Something went wrong.</h1>
+            <h1 id="logged-in-user-h1"></h1>
+            <div id="account-options-container">
+                <div id="logout-container">
+                    <form action="">
+                        <button type="submit" id="logout-button">logout</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>

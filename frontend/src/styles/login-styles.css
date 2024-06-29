@@ -16,6 +16,6 @@ form {
     }
 }
 
-#register-container, #login-container, #forgotpassword-container, #newpassword-container {
+#register-container, #login-container, #forgotpassword-container, #newpassword-container, #logout-container {
     min-width: 10rem;
 }

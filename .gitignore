@@ -3,3 +3,5 @@
 .env
 .vscode
 **/logs/
+patches_dev_notes.md
+**.lnk

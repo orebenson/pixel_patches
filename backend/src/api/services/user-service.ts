@@ -6,6 +6,12 @@ const log = Logger.getInstance();
 
 export async function addUser(params = { email: '', username: '', password: '' }) {
     try {
+        const userExistsEmail = await User.findOne({ email: params.email });
+        if (!!userExistsEmail) throw new Error('User already exists');
+
+        const userExistsUsername = await User.findOne({ username: params.username });
+        if (!!userExistsUsername) throw new Error('User already exists');
+
         const user = new User({
             email: params.email,
             username: params.username,

@@ -19,7 +19,8 @@ const log = log_utils_1.Logger.getInstance();
 function sendPasswordResetRequestEmail(email, username, resetlink) {
     return __awaiter(this, void 0, void 0, function* () {
         let transporter = nodemailer_1.default.createTransport({
-            service: process.env.EMAIL_HOST,
+            host: process.env.EMAIL_HOST,
+            port: Number(process.env.EMAIL_PORT),
             auth: {
                 user: process.env.EMAIL_USERNAME,
                 pass: process.env.EMAIL_PASSWORD
