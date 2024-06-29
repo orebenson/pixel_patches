@@ -9,7 +9,7 @@ Pixel Patches is a fun platform for creating and sharing 8x8 pixel art.
 - user account system
 - minimalistic design
 
-![](https://github.com/orebenson/pixel_patches/blob/main/frontpage1.png?raw=true)
+![](https://github.com/orebenson/pixel_patches/blob/main/frontpage.png?raw=true)
 
 ## Setup and Run Frontend
 - see `frontend/FRONTEND_README.md`
